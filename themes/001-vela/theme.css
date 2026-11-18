@@ -56,12 +56,13 @@
     width: min(120rem, 180vw);
     aspect-ratio: 2 / 1;
     translate: -50% 0;
-    /* Cyan and violet at equal strength over a navy ground muddy into olive
-       where they meet. Keep the violet dominant and let the cyan read as a
-       highlight on one edge of it, not as a second light source. */
+    /* Any amount of cyan in a blurred glow over a navy ground reads green.
+       The glow is one hue — violet, warmed at its core — and cyan stays
+       where it belongs: links, states, data. */
     background:
-      radial-gradient(38% 46% at 62% 34%, var(--c-accent-2) 0%, transparent 66%),
-      radial-gradient(26% 34% at 38% 30%, color-mix(in oklab, var(--c-accent) 72%, var(--c-accent-2)) 0%, transparent 68%);
+      radial-gradient(40% 48% at 58% 32%, var(--c-accent-2) 0%, transparent 66%),
+      radial-gradient(24% 30% at 44% 26%, #a78bfa 0%, transparent 70%),
+      radial-gradient(30% 36% at 72% 40%, #5b4bc4 0%, transparent 72%);
   }
   .aurora::after {
     inset: 0;
@@ -217,6 +218,8 @@
 
   /* --- hero layout ------------------------------------------------------- */
   .hero { padding-block: clamp(var(--space-20), 11vw, var(--space-32)) var(--space-16); }
+  /* Five lines of 6rem type is a stack, not a headline. */
+  .hero .display--hero { font-size: clamp(2.8rem, 1.9rem + 3.4vw, 4.6rem); max-width: 13ch; }
   .hero__grid {
     display: grid;
     gap: clamp(var(--space-10), 5vw, var(--space-20));
