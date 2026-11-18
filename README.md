@@ -1,61 +1,65 @@
 # web-design-lab
 
-Static web designs, built by hand, one at a time.
+A static-design pipeline. One complete, constrained web design shipped per day, built by a
+scheduled agent and reviewed by me.
 
-**Live gallery:** https://ry9901.github.io/web-design-lab/ *(enabled in Phase 0 step 8)*
+**Live gallery:** https://ry9901.github.io/web-design-lab/
 
 ---
 
 ## How this works, stated plainly
 
-This repository is a **supervised learning lab**, and it is AI-assisted. I would rather say so
-than have you work it out.
+This repository is AI-built, and I would rather say so than have you work it out.
 
-Three mornings a week (Mon/Wed/Fri, 05:00 +08) a scheduled [Claude Code](https://claude.com/claude-code)
-routine runs in the cloud and does four things:
+Every morning at 05:00 (+08) a scheduled [Claude Code](https://claude.com/claude-code) routine
+runs in the cloud and ships one design:
 
-1. reviews the design I built last session, in writing, including what I got wrong
-2. picks the next brief from [`catalog/briefs.json`](catalog/briefs.json) — a fixed catalogue of
-   60, each one a combination of *industry × aesthetic × layout archetype × one hard constraint*
-3. writes that brief out: an invented brand, real copy, a spec naming the CSS techniques the
-   design is supposed to exercise
-4. writes 2–3 ten-minute drills on exactly those techniques
+1. takes the next brief from [`catalog/briefs.json`](catalog/briefs.json) — a fixed catalogue of
+   60, each one a combination of *industry × aesthetic × layout archetype × **one hard
+   constraint***
+2. writes the brief out: an invented brand with real copy, and a spec naming the CSS techniques
+   the design must exercise
+3. hand-writes `index.html` and `styles.css` — no framework, no build step, no CDN
+4. runs the quality gate and fixes what it reports
+5. writes `BUILD.md`: the decisions it made, the alternatives it rejected, **what it is least
+   sure about**, and two judgment calls left for me
+6. commits and pushes
 
-**It does not write the designs.** Every line of HTML and CSS in `designs/*/` is written by me,
-by hand, from a blank file, in a two-hour session that evening. Then I write `LEARN.md` — what I
-decided, what broke, what I would do differently — in my own words, and the next routine run
-critiques it and asks me three questions about my own code.
+**My job is design direction and review.** I set the catalogue — the industries, the aesthetics,
+the archetypes, and the constraints that make each design a real problem rather than a
+template. Then I validate what shipped and record the verdict in `VALIDATE.md`: constraint met
+or not, what I accepted, what I sent back, and why.
 
-The point is not volume. The point is being able to defend every line of it.
+Unreviewed work is not finished work. If ten designs pile up without a `VALIDATE.md`, the
+routine stops building and says so.
 
 ## Why it is built this way
 
 | Choice | Reason |
 |---|---|
-| No build step, no framework, no Tailwind | The CSS is the skill being learned. A build step hides it. |
-| Hand-written, not generated | Generated code I cannot explain is worse than no portfolio at all. |
+| No build step, no framework, no Tailwind | Every file in `designs/` is readable on its own, in the browser, forever. No dependency rot across 60 designs. |
 | A fixed catalogue, each brief consumed once | 60 designs converge on the same design unless the axes are decided up front. |
-| One hard constraint per brief | *No images*, *monochrome*, *under 15KB*, *grid-only*, *keyboard-navigable*. Constraints are where the learning is. |
+| **One hard constraint per brief** | *No images*, *monochrome*, *under 15KB*, *grid-only*, *keyboard-navigable*. The constraint is the design problem. Without it this is just 60 landing pages. |
 | Invented brands with real copy | Lorem ipsum makes 60 designs read as one. |
-| Auto-pause after two missed nights | The repo stops rather than filling with briefs I never built. An honest gap beats fake throughput. |
+| `BUILD.md` leads with uncertainty | A build that tells me where it is probably wrong is reviewable in ten minutes. One that claims success is not. |
+| The routine pauses on a review backlog | A repo of unreviewed generated pages proves nothing. The gate enforces it. |
 
 ## Repository layout
 
 ```
-catalog/briefs.json      the 60 briefs, each consumed once
-shared/                  reset + design tokens, grown by extraction from shipped designs
-designs/NNNN-slug/       BRIEF SPEC DRILL (routine) · index.html styles.css LEARN (me) · REVIEW (routine)
-scripts/check.mjs        quality gate, zero dependencies
+catalog/briefs.json       the 60 briefs, each consumed once
+shared/                   reset + design tokens, grown by extraction
+designs/NNNN-slug/        BRIEF SPEC index.html styles.css BUILD (routine) · VALIDATE (me)
+scripts/check.mjs         quality gate, zero dependencies
 scripts/build-gallery.mjs generates the root index.html
-docs/ROUTINE.md          the exact prompt the routine runs
-docs/CURRICULUM.md       what each phase is for, and the exit criteria
-INTERVIEW.md             every question the routine asked, and my answer
+docs/ROUTINE.md           the exact prompt the routine runs
+docs/ROADMAP.md           what each phase adds
 ```
 
 ## Commands
 
 ```bash
-npm run check      # quality gate: structure, a11y basics, dead links, size budgets
+npm run check      # quality gate: constraints, a11y basics, dead links, size budgets, review backlog
 npm run gallery    # regenerate the root index.html
 npm run verify     # both
 npm run brief -- --industry "glass blower" --aesthetic "bauhaus" \
@@ -64,8 +68,7 @@ npm run brief -- --industry "glass blower" --aesthetic "bauhaus" \
 
 ## Status
 
-**Phase 0 — foundation.** No designs built yet. See [docs/CURRICULUM.md](docs/CURRICULUM.md)
-for the phase plan and the week-6 exit criteria.
+**Phase 1.** Designs shipping daily. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Licence
 

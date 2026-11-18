@@ -121,3 +121,28 @@ main {
   font-size: var(--text-sm);
   color: var(--ink-muted);
 }
+
+.card__badge {
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.card__badge.is-reviewed {
+  color: var(--ink);
+}
+
+.card__badge.is-pending {
+  color: var(--ink-muted);
+}
+
+.card__badge::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-inline-end: 0.5em;
+  background: currentColor;
+  vertical-align: 0.05em;
+}

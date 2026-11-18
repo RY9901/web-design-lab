@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 // Quality gate for web-design-lab. Zero dependencies by design.
 //
-// These are STRUCTURAL checks, not full HTML validation. They catch the mistakes
-// that actually accumulate in a repo like this: missing lang, missing alt, inline
-// styles, dead local links, a design marked built with no LEARN.md, and briefs
-// that got reissued. Phase 2 adds real validation, screenshots and Lighthouse.
+// The routine builds; Raziq reviews. This gate is what makes that honest:
+//   1. structural checks a reviewer should not have to do by hand
+//   2. MECHANICAL CONSTRAINT CHECKS — the brief's hard constraint, verified, not claimed
+//   3. a review-backlog limit, so unreviewed builds cannot pile up
+//
+// Statuses: "prepared" (brief written, not built) -> "built" (shipped by the routine)
+//           -> a design with VALIDATE.md is reviewed. No VALIDATE.md means awaiting review.
 
 import { readFile, readdir, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -12,6 +15,9 @@ import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const DESIGNS = path.join(ROOT, "designs");
+
+const BACKLOG_WARN = 5;
+const BACKLOG_FAIL = 10;
 
 const errors = [];
 const warnings = [];
@@ -36,6 +42,10 @@ function checkHtml(where, html, designDir) {
   if (!/<meta[^>]+name=["']viewport["']/i.test(html)) err(where, "missing viewport meta");
   if (!/<title>[^<]+<\/title>/i.test(html)) err(where, "missing or empty <title>");
 
+  const h1s = html.match(/<h1\b/gi) || [];
+  if (h1s.length === 0) err(where, "no <h1>");
+  if (h1s.length > 1) err(where, `${h1s.length} <h1> elements — there should be exactly one`);
+
   const inline = html.match(/<[a-z][^>]*\sstyle=["'][^"']+["']/gi) || [];
   if (inline.length) err(where, `${inline.length} inline style attribute(s) — put it in styles.css`);
 
@@ -43,15 +53,82 @@ function checkHtml(where, html, designDir) {
     if (!/\balt=/i.test(tag)) err(where, `<img> without alt: ${tag.slice(0, 70)}`);
   }
 
-  // Local references must resolve.
   for (const m of html.matchAll(/(?:href|src)=["']([^"'#?]+)["']/gi)) {
     const ref = m[1];
     if (/^(https?:|mailto:|tel:|data:|\/\/)/i.test(ref)) continue;
-    const target = path.resolve(designDir, ref);
-    if (!existsSync(target)) err(where, `dead local reference: ${ref}`);
+    if (!existsSync(path.resolve(designDir, ref))) err(where, `dead local reference: ${ref}`);
   }
 
-  if (!/styles\.css/.test(html)) warn(where, "does not link styles.css");
+  if (/https?:\/\/(cdn|unpkg|cdnjs|code\.jquery)/i.test(html)) {
+    err(where, "loads a CDN script or stylesheet — designs must be self-contained");
+  }
+}
+
+function checkCss(where, css) {
+  if (!/:focus-visible/.test(css)) {
+    warn(where, "no :focus-visible rule — keyboard focus is probably invisible");
+  }
+  if (/outline:\s*(none|0)/.test(css) && !/:focus-visible/.test(css)) {
+    err(where, "removes outline without providing a :focus-visible style");
+  }
+}
+
+// The hard constraint, verified mechanically wherever that is possible.
+function checkConstraint(where, constraint, html, css, bytes) {
+  const c = (constraint || "").toLowerCase();
+  const all = html + "\n" + css;
+
+  if (c.includes("no images")) {
+    const hits = [];
+    if (/<img\b/i.test(html)) hits.push("<img>");
+    if (/<picture\b/i.test(html)) hits.push("<picture>");
+    if (/<svg\b/i.test(html)) hits.push("<svg>");
+    if (/url\(\s*['"]?(?!#)/i.test(css)) hits.push("url() in CSS");
+    if (/\.(png|jpe?g|gif|webp|avif|svg)\b/i.test(all)) hits.push("an image file reference");
+    if (hits.length) err(where, `constraint "no images at all" violated: ${hits.join(", ")}`);
+  }
+
+  if (c.includes("no javascript")) {
+    if (/<script\b/i.test(html)) err(where, 'constraint "no JavaScript" violated: <script> present');
+    if (/\son[a-z]+=["']/i.test(html)) err(where, 'constraint "no JavaScript" violated: inline event handler');
+  }
+
+  if (c.includes("no flexbox") || c.includes("grid only")) {
+    if (/display\s*:\s*(inline-)?flex/i.test(css)) {
+      err(where, 'constraint "CSS Grid only, no flexbox" violated: display:flex in styles.css');
+    }
+  }
+
+  if (c.includes("no border-radius")) {
+    if (/border-radius/i.test(css)) err(where, 'constraint "no border-radius anywhere" violated');
+  }
+
+  if (c.includes("no media queries")) {
+    if (/@media[^{]*\(\s*(min|max)-(width|height)/i.test(css)) {
+      err(where, 'constraint "no media queries at all" violated: a width/height media query is present');
+    }
+  }
+
+  if (c.includes("no custom fonts") || c.includes("system fonts only")) {
+    if (/@font-face/i.test(css)) err(where, `constraint "${constraint}" violated: @font-face`);
+    if (/fonts\.(googleapis|gstatic)\.com/i.test(all)) err(where, `constraint "${constraint}" violated: Google Fonts`);
+  }
+
+  const budget = /under\s+(\d+)\s*kb/i.exec(c);
+  if (budget) {
+    const limit = Number(budget[1]) * 1024;
+    if (bytes > limit) {
+      err(where, `${(bytes / 1024).toFixed(1)}KB exceeds the ${budget[1]}KB budget in its own constraint`);
+    }
+  }
+
+  const colours = /maximum\s+(\d+)\s+colou?rs?/i.exec(c);
+  if (colours) {
+    const found = new Set((css.match(/#[0-9a-f]{3,8}\b/gi) || []).map((h) => h.toLowerCase()));
+    if (found.size > Number(colours[1]) + 2) {
+      warn(where, `${found.size} distinct hex colours for a "${constraint}" brief — check this by eye`);
+    }
+  }
 }
 
 async function checkDesign(slug) {
@@ -77,41 +154,34 @@ async function checkDesign(slug) {
     if (meta[field] === undefined) err(where, `meta.json missing "${field}"`);
   }
   if (meta.slug && meta.slug !== slug) err(where, `meta.slug "${meta.slug}" does not match folder name`);
+  if (!["prepared", "built"].includes(meta.status)) {
+    err(where, `meta.status "${meta.status}" is not "prepared" or "built"`);
+  }
 
   for (const f of ["BRIEF.md", "SPEC.md"]) {
-    if (!existsSync(path.join(dir, f))) err(where, `missing ${f} — the routine should have written it`);
+    if (!existsSync(path.join(dir, f))) err(where, `missing ${f}`);
   }
 
   const indexPath = path.join(dir, "index.html");
-  const hasIndex = existsSync(indexPath);
+  const cssPath = path.join(dir, "styles.css");
 
   if (meta.status === "built") {
-    if (!hasIndex) err(where, 'status is "built" but there is no index.html');
-
-    const learnPath = path.join(dir, "LEARN.md");
-    if (!existsSync(learnPath)) {
-      err(where, 'status is "built" but there is no LEARN.md — a design is not done until you write up what you learned');
-    } else {
-      const learn = (await readFile(learnPath, "utf8")).trim();
-      if (learn.length < 200) err(where, `LEARN.md is only ${learn.length} chars — write at least a few real paragraphs`);
-      if (/TODO|FIXME|lorem ipsum/i.test(learn)) err(where, "LEARN.md still contains placeholder text");
+    if (!existsSync(indexPath)) err(where, 'status "built" but no index.html');
+    if (!existsSync(cssPath)) err(where, 'status "built" but no styles.css');
+    if (!existsSync(path.join(dir, "BUILD.md"))) {
+      err(where, 'status "built" but no BUILD.md — the build must explain itself before review');
     }
   }
 
-  if (hasIndex) {
-    checkHtml(where, await readFile(indexPath, "utf8"), dir);
-
-    // Honour a size budget stated in the brief constraint, e.g. "under 15KB total".
-    const budget = /under\s+(\d+)\s*KB/i.exec(meta.constraint || "");
-    if (budget) {
-      const limit = Number(budget[1]) * 1024;
-      const size = await dirSize(dir);
-      if (size > limit) {
-        err(where, `${(size / 1024).toFixed(1)}KB exceeds the ${budget[1]}KB budget in its own constraint`);
-      }
-    }
+  if (existsSync(indexPath)) {
+    const html = await readFile(indexPath, "utf8");
+    const css = existsSync(cssPath) ? await readFile(cssPath, "utf8") : "";
+    checkHtml(where, html, dir);
+    if (css) checkCss(where, css);
+    checkConstraint(where, meta.constraint, html, css, await dirSize(dir));
   }
 
+  meta.__reviewed = existsSync(path.join(dir, "VALIDATE.md"));
   return meta;
 }
 
@@ -135,10 +205,7 @@ async function main() {
   }
 
   const slugs = existsSync(DESIGNS)
-    ? (await readdir(DESIGNS, { withFileTypes: true }))
-        .filter((e) => e.isDirectory())
-        .map((e) => e.name)
-        .sort()
+    ? (await readdir(DESIGNS, { withFileTypes: true })).filter((e) => e.isDirectory()).map((e) => e.name).sort()
     : [];
 
   const metas = [];
@@ -153,21 +220,35 @@ async function main() {
     }
   }
 
-  // The repo must never show more prepared briefs than finished builds by a wide margin.
-  const built = metas.filter((m) => m.status === "built").length;
-  const prepared = metas.length - built;
-  if (prepared > 2) {
-    err("repo", `${prepared} briefs prepared but unbuilt — the routine should have paused. Build them or delete them.`);
+  const built = metas.filter((m) => m.status === "built");
+  const awaitingReview = built.filter((m) => !m.__reviewed);
+
+  if (awaitingReview.length > BACKLOG_FAIL) {
+    err(
+      "repo",
+      `${awaitingReview.length} built designs have no VALIDATE.md. The routine must stop building until these are reviewed: ${awaitingReview
+        .map((m) => m.slug)
+        .join(", ")}`
+    );
+  } else if (awaitingReview.length > BACKLOG_WARN) {
+    warn("repo", `${awaitingReview.length} designs awaiting review — the routine halts at ${BACKLOG_FAIL}`);
   }
 
-  report({ built, prepared, total: briefs.length });
+  report({
+    built: built.length,
+    reviewed: built.length - awaitingReview.length,
+    awaiting: awaitingReview.length,
+    total: briefs.length,
+  });
 }
 
 function report(stats) {
-  const line = "-".repeat(60);
+  const line = "-".repeat(66);
   console.log(line);
   if (stats) {
-    console.log(`designs checked: ${checked}   built: ${stats.built}   awaiting build: ${stats.prepared}   briefs in catalog: ${stats.total}`);
+    console.log(
+      `designs: ${checked}   built: ${stats.built}   reviewed: ${stats.reviewed}   awaiting review: ${stats.awaiting}   briefs: ${stats.total}`
+    );
     console.log(line);
   }
 

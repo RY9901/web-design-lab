@@ -22,10 +22,13 @@ const designs = [];
 for (const slug of slugs) {
   const metaPath = path.join(DESIGNS, slug, "meta.json");
   if (!existsSync(metaPath)) continue;
-  designs.push(JSON.parse(await readFile(metaPath, "utf8")));
+  const meta = JSON.parse(await readFile(metaPath, "utf8"));
+  meta.reviewed = existsSync(path.join(DESIGNS, slug, "VALIDATE.md"));
+  designs.push(meta);
 }
 
 const built = designs.filter((d) => d.status === "built");
+const reviewed = built.filter((d) => d.reviewed);
 const total = catalog.briefs.length;
 
 const card = (d) => `      <li class="card">
@@ -33,6 +36,9 @@ const card = (d) => `      <li class="card">
           <span class="card__num">${esc(String(d.id).padStart(4, "0"))}</span>
           <h2 class="card__title">${esc(d.brand || d.industry || d.slug)}</h2>
         </a>
+        <p class="card__badge ${d.reviewed ? "is-reviewed" : "is-pending"}">${
+          d.reviewed ? "Reviewed" : "Awaiting review"
+        }</p>
         <dl class="card__meta">
           <dt>Industry</dt><dd>${esc(d.industry)}</dd>
           <dt>Aesthetic</dt><dd>${esc(d.aesthetic)}</dd>
@@ -40,8 +46,9 @@ const card = (d) => `      <li class="card">
           <dt>Constraint</dt><dd>${esc(d.constraint)}</dd>
         </dl>
         <p class="card__links">
-          <a href="designs/${esc(d.slug)}/LEARN.md">Write-up</a>
-          <a href="designs/${esc(d.slug)}/REVIEW.md">Review</a>
+          <a href="designs/${esc(d.slug)}/BUILD.md">Build notes</a>${
+            d.reviewed ? `\n          <a href="designs/${esc(d.slug)}/VALIDATE.md">Review</a>` : ""
+          }
         </p>
       </li>`;
 
@@ -50,8 +57,8 @@ const html = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>web-design-lab — hand-built static designs</title>
-  <meta name="description" content="A supervised learning lab: static web designs written by hand, specced and critiqued by Claude Code.">
+  <title>web-design-lab — one constrained design a day</title>
+  <meta name="description" content="A static-design pipeline: one constrained web design shipped per day by a scheduled agent, reviewed by hand.">
   <link rel="stylesheet" href="shared/reset.css">
   <link rel="stylesheet" href="shared/tokens.css">
   <link rel="stylesheet" href="shared/gallery.css">
@@ -60,17 +67,18 @@ const html = `<!doctype html>
   <header class="masthead">
     <h1>web-design-lab</h1>
     <p class="masthead__lede">
-      Static web designs, written by hand, one at a time. Each brief, spec and critique is
-      produced by a scheduled Claude Code routine; every line of HTML and CSS in the designs
-      is written by me. The method is documented in the README.
+      One static web design a day, each built against a single hard constraint &mdash; no images,
+      monochrome, under 15KB, grid&#8209;only, keyboard&#8209;navigable. Built by a scheduled
+      Claude Code routine, directed and reviewed by me. No framework, no build step, no CDN.
+      The method is documented in the README.
     </p>
     <p class="masthead__count">
-      <strong>${built.length}</strong> built &middot; <strong>${total}</strong> briefs in the catalogue
+      <strong>${built.length}</strong> built &middot; <strong>${reviewed.length}</strong> reviewed &middot; <strong>${total}</strong> briefs in the catalogue
     </p>
   </header>
 
   <main>
-${built.length ? `    <ul class="grid">\n${built.map(card).join("\n")}\n    </ul>` : `    <p class="empty">No designs built yet. Phase 0 is setup only.</p>`}
+${built.length ? `    <ul class="grid">\n${built.map(card).join("\n")}\n    </ul>` : `    <p class="empty">Nothing built yet.</p>`}
   </main>
 
   <footer class="footer">
@@ -81,4 +89,4 @@ ${built.length ? `    <ul class="grid">\n${built.map(card).join("\n")}\n    </ul
 `;
 
 await writeFile(path.join(ROOT, "index.html"), html, "utf8");
-console.log(`gallery written: ${built.length} built of ${total} briefs`);
+console.log(`gallery written: ${built.length} built, ${reviewed.length} reviewed, of ${total} briefs`);
