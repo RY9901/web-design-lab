@@ -248,6 +248,15 @@
   .nav__links a:hover { color: var(--c-ink); }
   @media (max-width: 860px) { .nav__links { display: none; } }
 
+  /* A nav is one row. .cluster wraps by design, which at narrow widths turns
+     the action group into a stack tall enough to collide with the brand. */
+  .nav__inner { flex-wrap: nowrap; }
+  .nav__inner .cluster { flex-wrap: nowrap; flex-shrink: 0; }
+  /* Below this the secondary action costs more than it earns. */
+  @media (max-width: 560px) {
+    .nav__inner .cluster .btn--ghost { display: none; }
+  }
+
   /* cards */
   .card {
     padding: var(--space-6);
