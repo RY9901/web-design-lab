@@ -15,6 +15,7 @@ import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const DESIGNS = path.join(ROOT, "designs");
+const THEMES = path.join(ROOT, "themes");
 
 const BACKLOG_WARN = 5;
 const BACKLOG_FAIL = 10;
@@ -185,6 +186,45 @@ async function checkDesign(slug) {
   return meta;
 }
 
+
+// Themes are the sellable pack. They carry no brief and no constraint, so they
+// get the structural checks only — but they DO get them. They were shipping
+// completely ungated, which is how a page goes out with faults nobody saw.
+async function checkTheme(slug) {
+  const dir = path.join(THEMES, slug);
+  const where = `themes/${slug}`;
+  let pages = 0;
+
+  const entries = (await readdir(dir, { withFileTypes: true }))
+    .filter((e) => e.isFile() && e.name.endsWith(".html"))
+    .map((e) => e.name)
+    .sort();
+
+  if (!entries.includes("index.html")) err(where, "no index.html");
+
+  for (const name of entries) {
+    const html = await readFile(path.join(dir, name), "utf8");
+    checkHtml(`${where}/${name}`, html, dir);
+    pages++;
+  }
+
+  const themeCss = path.join(dir, "theme.css");
+  if (!existsSync(themeCss)) {
+    err(where, "no theme.css — a theme must define its own token layer");
+  } else {
+    const css = await readFile(themeCss, "utf8");
+    // The theme layer’s whole job is to restate the contract from base.css.
+    for (const token of ["--c-ground", "--c-ink", "--c-accent", "--font-display"]) {
+      if (!css.includes(token)) warn(where, `theme.css never redefines ${token}`);
+    }
+    if (!/@layer\s+tokens/.test(css)) {
+      warn(where, "theme.css has no @layer tokens block — cascade order is not guaranteed");
+    }
+  }
+
+  return pages;
+}
+
 async function main() {
   const catalogPath = path.join(ROOT, "catalog", "briefs.json");
   if (!existsSync(catalogPath)) {
@@ -234,11 +274,19 @@ async function main() {
     warn("repo", `${awaitingReview.length} designs awaiting review — the routine halts at ${BACKLOG_FAIL}`);
   }
 
+  const themeSlugs = existsSync(THEMES)
+    ? (await readdir(THEMES, { withFileTypes: true })).filter((e) => e.isDirectory()).map((e) => e.name).sort()
+    : [];
+  let themePages = 0;
+  for (const slug of themeSlugs) themePages += await checkTheme(slug);
+
   report({
     built: built.length,
     reviewed: built.length - awaitingReview.length,
     awaiting: awaitingReview.length,
     total: briefs.length,
+    themes: themeSlugs.length,
+    themePages,
   });
 }
 
@@ -247,7 +295,7 @@ function report(stats) {
   console.log(line);
   if (stats) {
     console.log(
-      `designs: ${checked}   built: ${stats.built}   reviewed: ${stats.reviewed}   awaiting review: ${stats.awaiting}   briefs: ${stats.total}`
+      `themes: ${stats.themes}   theme pages: ${stats.themePages}   designs: ${checked}   built: ${stats.built}   reviewed: ${stats.reviewed}   awaiting review: ${stats.awaiting}   briefs: ${stats.total}`
     );
     console.log(line);
   }

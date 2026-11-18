@@ -128,7 +128,8 @@
     text-transform: uppercase;
     color: #e6ddd1;
   }
-  .hero .smallcaps { color: #e9c7a0; }
+  /* Oxblood small caps vanish against a dark photograph. */
+  .hero .smallcaps { color: #f0d2ae; letter-spacing: 0.26em; }
 
   /* the card that breaks the hero edge — depth without a 3D effect */
   .overlap {
