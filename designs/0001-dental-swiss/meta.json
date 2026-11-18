@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "slug": "0001-dental-swiss",
+  "brand": "Harbourline Dental",
+  "industry": "dental clinic",
+  "aesthetic": "swiss international",
+  "archetype": "split hero",
+  "constraint": "no images at all",
+  "focus": "layout",
+  "techniques": ["grid-template-areas", "named grid lines"],
+  "status": "prepared",
+  "preparedAt": "2026-11-18",
+  "builtAt": null,
+  "buildMinutes": null
+}
