@@ -180,6 +180,9 @@
   }
   .plate:hover img { transform: scale(1.04); }
   .plate--tall { aspect-ratio: 3 / 4; }
+  /* A photograph that is dark on its own page can go to pure black once it is
+     cropped into a tall plate. Lift it rather than lose the detail. */
+  .plate--lift img { filter: brightness(1.32) saturate(1.06) contrast(0.96); }
   .plate--wide { aspect-ratio: 4 / 3; }
   .plate--pano { aspect-ratio: 16 / 9; }
 
