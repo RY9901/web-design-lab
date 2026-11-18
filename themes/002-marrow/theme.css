@@ -13,7 +13,7 @@
     --c-surface: #f2ece3;
     --c-surface-2: #e8dfd2;
     --c-ink: #191512;
-    --c-muted: #6b6055;
+    --c-muted: #5d5347;
     --c-accent: #7b2d26;
     --c-accent-ink: #fdfaf6;
     --c-line: color-mix(in oklab, var(--c-ink) 16%, transparent);
@@ -26,9 +26,11 @@
     --display-leading: 0.92;
     --leading: 1.65;
 
-    --text-4xl: clamp(3.2rem, 1.6rem + 8.4vw, 9rem);
-    --text-3xl: clamp(2.4rem, 1.4rem + 4.6vw, 5rem);
-    --text-2xl: clamp(1.9rem, 1.4rem + 2.3vw, 3.2rem);
+    /* Capped deliberately. Past ~6.5rem a serif headline stops reading as
+       confident and starts reading as a placeholder. */
+    --text-4xl: clamp(2.9rem, 1.9rem + 4.4vw, 6.4rem);
+    --text-3xl: clamp(2.2rem, 1.5rem + 3vw, 4rem);
+    --text-2xl: clamp(1.8rem, 1.4rem + 1.8vw, 2.8rem);
 
     --radius-sm: 0;
     --radius: 0;
@@ -45,6 +47,11 @@
 @layer components {
   /* The system's default divider between sections is wrong for a magazine. */
   .section + .section { border-block-start: 0; }
+
+  /* Rhythm. The first pass let sections breathe so hard they read as
+     unfinished rather than generous. Space is only luxurious when it repeats. */
+  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-28)); }
+  .section > .wrap + .wrap { margin-block-start: clamp(var(--space-12), 5vw, var(--space-20)); }
 
   .display { font-weight: 400; }
 
@@ -69,11 +76,12 @@
   /* --- hero: full-bleed photograph, type at the margin ------------------- */
   .hero {
     position: relative;
-    min-height: min(92svh, 54rem);
+    min-height: min(94svh, 56rem);
     display: grid;
     align-items: end;
     isolation: isolate;
     overflow: clip;
+    background: #0d0b0a;
   }
   .hero__img {
     position: absolute;
@@ -82,24 +90,32 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 42%;
+    object-position: 50% 52%;
+    /* The photograph is daylight-cool; the palette is not. Warm it rather
+       than laying a coloured sheet over it, which always looks cheap. */
+    filter: sepia(0.3) saturate(0.86) contrast(1.06) brightness(0.86);
   }
   .hero::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
+    /* Two scrims: one weighting the foot of the frame, one bedding the
+       left column so the type never sits on undefended detail. */
     background:
-      linear-gradient(190deg, rgb(16 11 8 / 0.42) 0%, rgb(16 11 8 / 0.06) 38%, rgb(16 11 8 / 0.78) 100%);
+      linear-gradient(to top, rgb(11 8 6 / 0.88) 0%, rgb(11 8 6 / 0.3) 34%, rgb(11 8 6 / 0.12) 62%, rgb(11 8 6 / 0.5) 100%),
+      linear-gradient(to right, rgb(11 8 6 / 0.6) 0%, rgb(11 8 6 / 0.12) 46%, transparent 72%);
   }
-  .hero__inner { padding-block: var(--space-24) var(--space-16); color: #fbf7f1; }
+  .hero__inner { padding-block: var(--space-24) clamp(var(--space-12), 7vh, var(--space-20)); color: #fbf7f1; }
   .hero__title {
     font-family: var(--font-display);
     font-size: var(--text-4xl);
-    line-height: 0.86;
-    letter-spacing: -0.015em;
+    line-height: 0.94;
+    letter-spacing: -0.012em;
     text-wrap: balance;
-    max-width: 22ch;
+    /* A narrow column of large type beats a wide one every time. */
+    max-width: 15ch;
+    text-shadow: 0 1px 36px rgb(11 8 6 / 0.55);
   }
   .hero__title em { font-style: italic; color: #e9c7a0; }
   .hero__meta {
@@ -122,12 +138,12 @@
     background: var(--c-ground);
     padding: clamp(var(--space-8), 4vw, var(--space-16));
     box-shadow: var(--shadow-3);
-    max-width: 44rem;
+    max-width: 40rem;
   }
   .overlap p {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
-    line-height: 1.35;
+    font-size: var(--text-2xl);
+    line-height: 1.28;
     text-wrap: pretty;
   }
 
@@ -173,8 +189,9 @@
     font-size: var(--text-base);
     color: var(--c-muted);
   }
-  /* the offset that stops a pair of images looking like a grid */
-  .offset-down { margin-block-start: clamp(var(--space-8), 7vw, var(--space-24)); }
+  /* The offset that stops a pair of images looking like a grid. Enough to
+     break the line, not so much it tears a hole in the page. */
+  .offset-down { margin-block-start: clamp(var(--space-6), 4vw, var(--space-14)); }
 
   /* --- the menu: typography doing all the work --------------------------- */
   .menu { display: grid; gap: clamp(var(--space-10), 4vw, var(--space-16)); }
@@ -268,9 +285,28 @@
     backdrop-filter: none;
     color: #fbf7f1;
   }
-  .nav__brand { font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.02em; }
-  .nav__links a { color: rgb(251 247 241 / 0.78); letter-spacing: 0.14em; text-transform: uppercase; font-size: var(--text-xs); }
+  .nav__inner { padding-block: clamp(var(--space-5), 2.4vw, var(--space-8)); }
+  .nav__brand {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    letter-spacing: 0.01em;
+  }
+  .nav__links { gap: clamp(var(--space-5), 2.6vw, var(--space-10)); }
+  .nav__links a { color: rgb(251 247 241 / 0.72); letter-spacing: 0.16em; text-transform: uppercase; font-size: var(--text-xs); }
   .nav__links a:hover { color: #fbf7f1; }
+
+  /* A boxed button in the corner is the tell of a template. A ruled word
+     carries the same weight and costs the composition nothing. */
+  .nav__book {
+    color: #fbf7f1;
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding-block-end: 0.35em;
+    border-block-end: 1px solid rgb(251 247 241 / 0.45);
+    transition: border-color 0.3s var(--ease-out);
+  }
+  .nav__book:hover { border-block-end-color: #e9c7a0; }
 
   .footer { background: var(--c-ink); color: var(--c-ground); border: 0; }
   .footer a, .footer h3 { color: color-mix(in oklab, var(--c-ground) 72%, transparent); }
