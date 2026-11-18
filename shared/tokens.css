@@ -1,0 +1,67 @@
+/* Shared design tokens.
+ *
+ * RULE: this file grows only by EXTRACTION — a value moves here once it has proved
+ * itself in two or more shipped designs. Never invent a token here speculatively.
+ * The weekly consolidation session is where extraction happens.
+ *
+ * Seeded deliberately small. If it is still this small at design 20, something is
+ * wrong with the consolidation habit, not with the file.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Spacing — a 4px scale. Every margin and gap in the lab comes from here. */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem;  /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-12: 3rem;   /* 48px */
+  --space-16: 4rem;   /* 64px */
+  --space-24: 6rem;   /* 96px */
+
+  /* Type — a 1.25 modular scale, fluid where it earns it. */
+  --text-sm: 0.8rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.4rem, 1.2rem + 1vw, 1.95rem);
+  --text-2xl: clamp(1.9rem, 1.4rem + 2.5vw, 3.05rem);
+
+  --leading-tight: 1.15;
+  --leading-normal: 1.5;
+  --leading-loose: 1.7;
+
+  /* Measure — the only correct unit for a text column. */
+  --measure: 65ch;
+  --measure-narrow: 45ch;
+
+  /* Colour. Neutral on purpose: each design brings its own palette. */
+  --ink: #16181c;
+  --ink-muted: #5c6066;
+  --paper: #fdfdfc;
+  --paper-sunken: #f2f2f0;
+  --line: #d9d9d5;
+  --accent: #1f4ed8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #e8e8e6;
+    --ink-muted: #9ea2a8;
+    --paper: #121316;
+    --paper-sunken: #1b1d21;
+    --line: #2d3036;
+    --accent: #8ca8ff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ink: #e8e8e6;
+  --ink-muted: #9ea2a8;
+  --paper: #121316;
+  --paper-sunken: #1b1d21;
+  --line: #2d3036;
+  --accent: #8ca8ff;
+}

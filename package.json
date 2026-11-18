@@ -1,0 +1,17 @@
+{
+  "name": "web-design-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hand-built static web designs. Briefs, specs and critiques by a scheduled Claude Code routine; all design code written by hand.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "gallery": "node scripts/build-gallery.mjs",
+    "brief": "node scripts/new-brief.mjs",
+    "verify": "npm run gallery && npm run check"
+  },
+  "license": "MIT"
+}

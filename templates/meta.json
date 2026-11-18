@@ -1,0 +1,16 @@
+{
+  "_comment": "Shape reference. The routine writes one of these into each design folder. status: prepared -> built.",
+  "id": 0,
+  "slug": "0000-industry-aesthetic",
+  "brand": "invented brand name",
+  "industry": "",
+  "aesthetic": "",
+  "archetype": "",
+  "constraint": "",
+  "focus": "layout | type | responsive | open",
+  "techniques": [],
+  "status": "prepared",
+  "preparedAt": null,
+  "builtAt": null,
+  "buildMinutes": null
+}
