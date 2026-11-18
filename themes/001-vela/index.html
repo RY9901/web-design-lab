@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vela — background jobs that finish</title>
+  <meta name="description" content="Vela runs your queues, retries, schedules and long-running workflows on infrastructure you never have to babysit. Durable by default, inspectable down to the step.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../system/base.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="nav__brand" href="#top">Vela</a>
+      <nav aria-label="Main">
+        <ul class="nav__links">
+          <li><a href="#product">Product</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div class="cluster">
+        <a class="btn btn--ghost" href="#pricing">Sign in</a>
+        <a class="btn btn--primary" href="#pricing">Start free</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero aurora" id="top">
+      <div class="wrap hero__grid">
+        <div class="stack">
+          <p class="pill"><span class="pill__dot"></span> Durable execution, now in every region</p>
+          <h1 class="display display--hero">Background jobs<br>that <span class="gradient-text">actually finish</span>.</h1>
+          <p class="lede">Vela runs your queues, retries, schedules and long-running workflows on infrastructure you never have to babysit. Durable by default, and inspectable down to the individual step.</p>
+          <div class="cluster">
+            <a class="btn btn--primary btn--lg" href="#pricing">Start free</a>
+            <a class="btn btn--lg" href="#how">Read the docs</a>
+          </div>
+          <p class="eyebrow">No card required &middot; 1M runs a month free &middot; SOC 2 Type II</p>
+        </div>
+
+        <div class="frame reveal" role="img" aria-label="Screenshot of the Vela dashboard showing recent workflow runs and a throughput chart">
+          <div class="frame__bar">
+            <span class="frame__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="frame__path">vela.run / acme / workflows</span>
+          </div>
+          <div class="frame__body">
+            <div class="frame__side">
+              <b>Workflows</b>
+              <span>Runs</span>
+              <span>Schedules</span>
+              <span>Queues</span>
+              <span>Logs</span>
+              <span>Settings</span>
+            </div>
+            <div class="frame__main">
+              <div class="runs">
+                <div class="run"><span>invoice.reconcile</span><span class="run__state">completed</span><span class="run__ms">412ms</span></div>
+                <div class="run"><span>export.monthly</span><span class="run__state">completed</span><span class="run__ms">8.4s</span></div>
+                <div class="run run--failed"><span>webhook.replay</span><span class="run__state">retrying 2/5</span><span class="run__ms">1.2s</span></div>
+                <div class="run run--queued"><span>digest.send</span><span class="run__state">queued</span><span class="run__ms">&mdash;</span></div>
+                <div class="run"><span>ledger.close</span><span class="run__state">completed</span><span class="run__ms">2.9s</span></div>
+              </div>
+              <div>
+                <p class="eyebrow">Throughput, last 12 hours</p>
+                <div class="spark" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section--tight">
+      <div class="wrap">
+        <p class="eyebrow text-center">Running in production at</p>
+        <div class="logos" aria-label="Customer wordmarks">
+          <span>Northbound</span>
+          <span>Lumen&amp;Co</span>
+          <span>Fieldnote</span>
+          <span>Tessellate</span>
+          <span>Harbourline</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="product">
+      <div class="wrap stack">
+        <p class="eyebrow">What you stop building</p>
+        <h2 class="display display--section">Four systems you no longer have to own.</h2>
+        <p class="prose">Every team that ships background work rebuilds the same four things, badly, under deadline. Vela ships them as primitives.</p>
+
+        <div class="grid-auto reveal">
+          <article class="card card--hover">
+            <h3 class="card__title">Durable retries</h3>
+            <p class="card__body">Exponential backoff, jitter, and a dead-letter queue that is queryable rather than a dumping ground. A step that fails on attempt four resumes from attempt four, not from the beginning.</p>
+          </article>
+          <article class="card card--hover">
+            <h3 class="card__title">Step-level traces</h3>
+            <p class="card__body">Every run is a tree of steps with inputs, outputs, duration and the exact exception. You stop reading log lines to work out which of nine stages hung.</p>
+          </article>
+          <article class="card card--hover">
+            <h3 class="card__title">Schedules, no cron box</h3>
+            <p class="card__body">Cron expressions and calendar rules with timezone and DST handled properly. No box whose only job is cron, no 3am page because that box rebooted.</p>
+          </article>
+          <article class="card card--hover">
+            <h3 class="card__title">Idempotency by default</h3>
+            <p class="card__body">Pass a key, get exactly-once semantics for the window you choose. The double-charge class of bug stops being yours to prevent by hand.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap hero__grid">
+        <div class="stack">
+          <p class="eyebrow">How it works</p>
+          <h2 class="display display--section">A workflow is a function. Durability is the runtime&rsquo;s problem.</h2>
+          <ol class="numbered stack" role="list">
+            <li><strong>Define steps.</strong> Each <code>step.run</code> is checkpointed. Its result is persisted before the next one starts.</li>
+            <li><strong>Sleep without holding a process.</strong> <code>step.sleep</code> for a minute or a fortnight; nothing of yours stays resident.</li>
+            <li><strong>Deploy anywhere.</strong> The SDK is a dependency, not a daemon. It runs on your serverless functions, containers or a laptop.</li>
+            <li><strong>Watch it, then forget it.</strong> Traces, alerts and replay are on by default rather than a later integration.</li>
+          </ol>
+        </div>
+
+        <div class="code reveal">
+          <div class="code__head"><span>workflows/dunning.ts</span><span>TypeScript</span></div>
+<pre><code><span class="c">// Retries, sleeps and replays are handled by the runtime.</span>
+<span class="k">export const</span> <span class="f">dunning</span> = vela.<span class="f">workflow</span>({
+  id: <span class="s">"invoice.dunning"</span>,
+  retries: <span class="s">5</span>,
+}, <span class="k">async</span> ({ step, event }) =&gt; {
+  <span class="k">const</span> invoice = <span class="k">await</span> step.<span class="f">run</span>(<span class="s">"load"</span>, () =&gt;
+    db.invoices.<span class="f">find</span>(event.invoiceId));
+
+  <span class="k">for</span> (<span class="k">const</span> day <span class="k">of</span> [<span class="s">3</span>, <span class="s">7</span>, <span class="s">14</span>]) {
+    <span class="k">await</span> step.<span class="f">sleep</span>(<span class="s">`wait-${day}d`</span>, <span class="s">`${day}d`</span>);
+    <span class="k">if</span> (<span class="k">await</span> step.<span class="f">run</span>(<span class="s">"paid?"</span>, () =&gt; isPaid(invoice)))
+      <span class="k">return</span> { settled: <span class="k">true</span>, day };
+
+    <span class="k">await</span> step.<span class="f">run</span>(<span class="s">`remind-${day}d`</span>, () =&gt;
+      email.<span class="f">send</span>(invoice.contact, <span class="s">"reminder"</span>, { day }));
+  }
+
+  <span class="k">return</span> step.<span class="f">run</span>(<span class="s">"escalate"</span>, () =&gt; collections.<span class="f">open</span>(invoice));
+});</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section--tight">
+      <div class="wrap grid-auto reveal">
+        <div class="metric"><p class="metric__value">99.99%</p><p class="metric__label">Control-plane uptime across the last twelve months</p></div>
+        <div class="metric"><p class="metric__value">48ms</p><p class="metric__label">Median enqueue latency, measured at the p50 edge</p></div>
+        <div class="metric"><p class="metric__value">2.1B</p><p class="metric__label">Steps executed last quarter across all regions</p></div>
+        <div class="metric"><p class="metric__value">0</p><p class="metric__label">Cron servers our customers still maintain</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="wrap stack">
+        <p class="eyebrow">Pricing</p>
+        <h2 class="display display--section">Priced per step, not per seat.</h2>
+        <p class="prose">Your whole team can watch production without buying a licence each. You pay for execution.</p>
+
+        <div class="grid-auto reveal">
+          <article class="card">
+            <h3 class="card__title">Free</h3>
+            <p class="card__body">1M steps a month, 7-day trace retention, community support. No card.</p>
+            <p class="stack"><a class="btn" href="#faq">Start free</a></p>
+          </article>
+          <article class="card card--raised">
+            <p class="pill"><span class="pill__dot"></span> Most teams</p>
+            <h3 class="card__title">Team &mdash; $29</h3>
+            <p class="card__body">Per month plus $0.40 per million steps. 90-day retention, replay, alerts, unlimited seats.</p>
+            <p class="stack"><a class="btn btn--primary" href="#faq">Start a trial</a></p>
+          </article>
+          <article class="card">
+            <h3 class="card__title">Scale</h3>
+            <p class="card__body">Dedicated regions, VPC peering, 1-year retention, 15-minute response SLA.</p>
+            <p class="stack"><a class="btn" href="#faq">Talk to us</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="wrap wrap--narrow stack">
+        <p class="eyebrow">Questions</p>
+        <h2 class="display display--section">The ones we actually get asked.</h2>
+
+        <div class="faq">
+          <details class="faq__item">
+            <summary>Do I have to run a worker?</summary>
+            <p class="faq__answer">No. The SDK registers your workflows and Vela calls them over HTTPS, so your existing serverless functions or containers are the workers. There is nothing new to keep alive.</p>
+          </details>
+          <details class="faq__item">
+            <summary>What happens if my function is redeployed mid-run?</summary>
+            <p class="faq__answer">Completed steps are already persisted, so the run resumes at the next uncompleted step against the new deployment. Long sleeps are held by us, not by your process, so a deploy during a fourteen-day wait is a non-event.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Can I migrate off?</summary>
+            <p class="faq__answer">The workflow definitions are ordinary functions in your repository. Export your run history as newline-delimited JSON at any time, including on the free tier.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Where does my data live?</summary>
+            <p class="faq__answer">In the region you pick at project creation, and it does not leave it. Step inputs and outputs can be encrypted with your own key, in which case we store ciphertext and traces show shapes rather than values.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="band reveal">
+          <h2 class="display display--section">Ship the feature. Not the queue.</h2>
+          <p class="lede mx-auto text-center">Start on the free tier and move a single job across this afternoon.</p>
+          <p class="cluster" role="group" aria-label="Get started">
+            <a class="btn btn--primary btn--lg" href="#pricing">Start free</a>
+            <a class="btn btn--lg btn--ghost" href="#how">Read the docs</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__cols">
+        <div>
+          <a class="nav__brand" href="#top">Vela</a>
+          <p class="prose">Durable execution for teams who would rather ship the product than the plumbing.</p>
+        </div>
+        <div>
+          <h3>Product</h3>
+          <ul><li><a href="#product">Features</a></li><li><a href="#how">Workflows</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">Changelog</a></li></ul>
+        </div>
+        <div>
+          <h3>Developers</h3>
+          <ul><li><a href="#how">Documentation</a></li><li><a href="#how">SDK reference</a></li><li><a href="#how">Status</a></li><li><a href="#faq">Support</a></li></ul>
+        </div>
+        <div>
+          <h3>Company</h3>
+          <ul><li><a href="#top">About</a></li><li><a href="#top">Careers</a></li><li><a href="#top">Privacy</a></li><li><a href="#top">Terms</a></li></ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>&copy; 2026 Vela. All rights reserved.</p>
+        <p>Vela is a fictional product, created to demonstrate this template. No real company is represented.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

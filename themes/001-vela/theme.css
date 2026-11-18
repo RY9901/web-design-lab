@@ -1,0 +1,236 @@
+/* ============================================================================
+   VELA — techno-minimal, dark. Theme layer only.
+   Redefines the token contract from system/base.css, then adds the three
+   signature pieces: the aurora ground, the CSS product frame, the code block.
+   ========================================================================= */
+
+@layer tokens {
+  :root {
+    color-scheme: dark;
+
+    --c-ground: #0b0f14;
+    --c-surface: #111821;
+    --c-surface-2: #16202b;
+    --c-ink: #e8edf4;
+    --c-muted: #93a1b4;
+    --c-accent: #4dd0e1;
+    --c-accent-ink: #05222a;
+    --c-accent-2: #7c6cf5;
+    --c-line: color-mix(in oklab, var(--c-ink) 12%, transparent);
+    --c-line-soft: color-mix(in oklab, var(--c-ink) 7%, transparent);
+
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+    --display-tracking: -0.035em;
+    --display-leading: 0.94;
+
+    --radius: 14px;
+    --radius-lg: 22px;
+
+    --shadow-2: 0 10px 30px -10px rgb(0 0 0 / 0.7);
+    --shadow-3: 0 40px 90px -36px rgb(0 0 0 / 0.9);
+  }
+}
+
+@layer components {
+  /* --- aurora ground: the glow, done in CSS, no images ------------------- */
+  .aurora {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+  .aurora::before,
+  .aurora::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(70px);
+    opacity: 0.55;
+  }
+  .aurora::before {
+    inset-block-start: -22rem;
+    inset-inline-start: 50%;
+    width: min(120rem, 180vw);
+    aspect-ratio: 2 / 1;
+    translate: -50% 0;
+    background:
+      radial-gradient(45% 55% at 32% 42%, var(--c-accent) 0%, transparent 62%),
+      radial-gradient(42% 50% at 68% 38%, var(--c-accent-2) 0%, transparent 60%);
+  }
+  .aurora::after {
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--c-line-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--c-line-soft) 1px, transparent 1px);
+    background-size: 68px 68px;
+    mask-image: radial-gradient(70% 55% at 50% 12%, #000 0%, transparent 78%);
+    filter: none;
+    opacity: 0.6;
+  }
+
+  .gradient-text {
+    background: linear-gradient(104deg, var(--c-ink) 18%, var(--c-accent) 58%, var(--c-accent-2) 94%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* --- the product frame: a fake app window, pure CSS -------------------- */
+  .frame {
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--c-surface) 90%, var(--c-accent) 4%), var(--c-surface));
+    box-shadow: var(--shadow-3), 0 0 0 1px color-mix(in oklab, var(--c-accent) 12%, transparent) inset;
+    overflow: hidden;
+  }
+  .frame__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    border-block-end: 1px solid var(--c-line-soft);
+    background: color-mix(in oklab, var(--c-ground) 55%, transparent);
+  }
+  .frame__dots { display: flex; gap: 0.4rem; }
+  .frame__dots i {
+    width: 0.65rem; height: 0.65rem; border-radius: 50%;
+    background: var(--c-line);
+  }
+  .frame__path {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--c-muted);
+  }
+  .frame__body {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    min-height: 23rem;
+  }
+  @media (max-width: 720px) {
+    .frame__body { grid-template-columns: 1fr; }
+    .frame__side { display: none; }
+  }
+  .frame__side {
+    border-inline-end: 1px solid var(--c-line-soft);
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    font-size: var(--text-sm);
+    color: var(--c-muted);
+  }
+  .frame__side b { color: var(--c-ink); font-weight: 500; }
+  .frame__main { padding: var(--space-6); display: grid; gap: var(--space-5); align-content: start; }
+
+  /* run rows */
+  .runs { display: grid; gap: var(--space-2); }
+  .run {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--c-line-soft);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    background: color-mix(in oklab, var(--c-ground) 35%, transparent);
+  }
+  .run__state { color: var(--c-accent); }
+  .run--queued .run__state { color: var(--c-muted); }
+  .run--failed .run__state { color: #ff8e72; }
+  .run__ms { color: var(--c-muted); font-variant-numeric: tabular-nums; }
+
+  /* a bar chart out of divs */
+  .spark { display: flex; align-items: flex-end; gap: 0.3rem; height: 5.5rem; }
+  .spark i {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(180deg, var(--c-accent), color-mix(in oklab, var(--c-accent) 25%, transparent));
+  }
+  /* Heights live here, not in a style attribute — the gate rejects inline styles. */
+  .spark i:nth-child(1)  { height: 34%; }
+  .spark i:nth-child(2)  { height: 52%; }
+  .spark i:nth-child(3)  { height: 41%; }
+  .spark i:nth-child(4)  { height: 66%; }
+  .spark i:nth-child(5)  { height: 58%; }
+  .spark i:nth-child(6)  { height: 79%; }
+  .spark i:nth-child(7)  { height: 62%; }
+  .spark i:nth-child(8)  { height: 88%; }
+  .spark i:nth-child(9)  { height: 71%; }
+  .spark i:nth-child(10) { height: 94%; }
+  .spark i:nth-child(11) { height: 83%; }
+  .spark i:nth-child(12) { height: 100%; }
+
+  /* --- code block -------------------------------------------------------- */
+  .code {
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--c-ground) 60%, var(--c-surface));
+    overflow: hidden;
+  }
+  .code__head {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    border-block-end: 1px solid var(--c-line-soft);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--c-muted);
+  }
+  .code pre {
+    margin: 0;
+    padding: var(--space-5);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+  }
+  .code .k { color: var(--c-accent-2); }
+  .code .s { color: #8ce99a; }
+  .code .f { color: var(--c-accent); }
+  .code .c { color: var(--c-muted); font-style: italic; }
+
+  /* --- logo strip (wordmarks, not images) -------------------------------- */
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    align-items: center;
+    justify-content: center;
+    opacity: 0.62;
+  }
+  .logos span {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-size: var(--text-lg);
+  }
+
+  /* --- hero layout ------------------------------------------------------- */
+  .hero { padding-block: clamp(var(--space-20), 11vw, var(--space-32)) var(--space-16); }
+  .hero__grid {
+    display: grid;
+    gap: clamp(var(--space-10), 5vw, var(--space-20));
+    align-items: center;
+  }
+  @media (min-width: 1040px) {
+    .hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  }
+
+  /* --- CTA band ---------------------------------------------------------- */
+  .band {
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(var(--space-10), 5vw, var(--space-20));
+    text-align: center;
+    background:
+      radial-gradient(80% 140% at 50% 0%, color-mix(in oklab, var(--c-accent) 14%, transparent), transparent 70%),
+      var(--c-surface);
+  }
+}
