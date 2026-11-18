@@ -48,7 +48,7 @@
     z-index: -1;
     pointer-events: none;
     filter: blur(70px);
-    opacity: 0.55;
+    opacity: 0.42;
   }
   .aurora::before {
     inset-block-start: -22rem;
@@ -56,9 +56,12 @@
     width: min(120rem, 180vw);
     aspect-ratio: 2 / 1;
     translate: -50% 0;
+    /* Cyan and violet at equal strength over a navy ground muddy into olive
+       where they meet. Keep the violet dominant and let the cyan read as a
+       highlight on one edge of it, not as a second light source. */
     background:
-      radial-gradient(45% 55% at 32% 42%, var(--c-accent) 0%, transparent 62%),
-      radial-gradient(42% 50% at 68% 38%, var(--c-accent-2) 0%, transparent 60%);
+      radial-gradient(38% 46% at 62% 34%, var(--c-accent-2) 0%, transparent 66%),
+      radial-gradient(26% 34% at 38% 30%, color-mix(in oklab, var(--c-accent) 72%, var(--c-accent-2)) 0%, transparent 68%);
   }
   .aurora::after {
     inset: 0;
