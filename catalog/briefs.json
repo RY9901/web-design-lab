@@ -11,7 +11,7 @@
     }
   },
   "briefs": [
-    { "id": 1, "slug": "0001-dental-swiss", "industry": "dental clinic", "aesthetic": "swiss international", "archetype": "split hero", "constraint": "no images at all", "focus": "layout", "techniques": ["grid-template-areas", "named grid lines"], "status": "prepared", "builtAt": null },
+    { "id": 1, "slug": "0001-dental-swiss", "industry": "dental clinic", "aesthetic": "swiss international", "archetype": "split hero", "constraint": "no images at all", "focus": "layout", "techniques": ["grid-template-areas", "named grid lines"], "status": "built", "builtAt": "2026-11-18" },
     { "id": 2, "slug": "0002-bookshop-editorial", "industry": "independent bookshop", "aesthetic": "editorial magazine", "archetype": "sidebar + content", "constraint": "CSS Grid only, no flexbox", "focus": "layout", "techniques": ["grid for one-dimensional layout", "align-self / justify-self"], "status": "unbuilt", "builtAt": null },
     { "id": 3, "slug": "0003-bike-coop-blueprint", "industry": "bicycle repair co-op", "aesthetic": "technical blueprint", "archetype": "bento grid", "constraint": "monochrome, one hue only", "focus": "layout", "techniques": ["auto-fit + minmax()", "grid-auto-flow: dense"], "status": "unbuilt", "builtAt": null },
     { "id": 4, "slug": "0004-surf-school-earthy", "industry": "surf school", "aesthetic": "warm earthy", "archetype": "long-scroll narrative", "constraint": "no JavaScript", "focus": "layout", "techniques": ["intrinsic sizing with min() and max()", "content-based column widths"], "status": "unbuilt", "builtAt": null },

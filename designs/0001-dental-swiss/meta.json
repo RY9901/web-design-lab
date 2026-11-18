@@ -7,9 +7,12 @@
   "archetype": "split hero",
   "constraint": "no images at all",
   "focus": "layout",
-  "techniques": ["grid-template-areas", "named grid lines"],
-  "status": "prepared",
+  "techniques": [
+    "grid-template-areas",
+    "named grid lines"
+  ],
+  "status": "built",
   "preparedAt": "2026-11-18",
-  "builtAt": null,
+  "builtAt": "2026-11-18",
   "buildMinutes": null
 }

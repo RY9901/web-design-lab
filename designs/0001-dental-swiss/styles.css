@@ -1,0 +1,242 @@
+/* 0001 — Harbourline Dental. Swiss International, no images.
+   Three colours only: paper, ink, signal. Hierarchy comes from size, weight and rules. */
+
+:root {
+  color-scheme: light;
+  --paper: #f4f2ee;
+  --ink: #111111;
+  --signal: #c8231a;          /* darkened from #d8281e: 4.4:1 on paper failed AA, this is ~5:1 */
+
+  --gutter: var(--space-4);   /* shared token: 1rem */
+  --font: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+}
+
+html { background: var(--paper); }
+
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--paper);
+  max-width: 100rem;
+  margin-inline: auto;
+  display: grid;
+  column-gap: var(--space-6);
+  align-content: start;
+  /* TECHNIQUE 2 — named grid lines. Two outer gutters, then a 12-column content area.
+     Lines are named for what they MEAN: the full-bleed edge, the content edge,
+     and the hanging-label / body split used by every section. */
+  grid-template-columns:
+    [full-start] minmax(var(--gutter), 1fr)
+    [content-start label-start] repeat(3, minmax(0, 1fr))
+    [label-end body-start] repeat(9, minmax(0, 1fr))
+    [body-end content-end] minmax(var(--gutter), 1fr)
+    [full-end];
+  /* TECHNIQUE 1 — grid-template-areas. The whole page is one map; "." is a gutter. */
+  grid-template-areas:
+    "masthead masthead masthead masthead masthead masthead masthead masthead masthead masthead masthead masthead masthead masthead"
+    ".        hero     hero     hero     hero     hero     hero     hero     facts    facts    facts    facts    facts    ."
+    "treat    treat    treat    treat    treat    treat    treat    treat    treat    treat    treat    treat    treat    treat"
+    "team     team     team     team     team     team     team     team     team     team     team     team     team     team"
+    "fees     fees     fees     fees     fees     fees     fees     fees     fees     fees     fees     fees     fees     fees"
+    "colo     colo     colo     colo     colo     colo     colo     colo     colo     colo     colo     colo     colo     colo";
+}
+
+/* Wrappers that sit in the body grid take the grid's own columns through subgrid, so the
+   named lines above are still addressable from inside each section. */
+.masthead, main, .band { display: grid; grid-template-columns: subgrid; }
+main { display: contents; }   /* hero/facts/bands place themselves directly in the body map */
+
+.masthead { grid-area: masthead; }
+.hero     { grid-area: hero; }
+.facts    { grid-area: facts; }
+.treatments { grid-area: treat; }
+.team     { grid-area: team; }
+.fees     { grid-area: fees; }
+.colophon { grid-area: colo; }
+
+/* ---------- Links, focus ---------- */
+
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 3px; }
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  align-items: baseline;
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--ink);
+}
+.masthead__mark {
+  grid-column: content-start / label-end;
+  font-weight: 700;
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+}
+.masthead__mark a { text-decoration: none; }
+.masthead__nav { grid-column: body-start / body-end; }
+.masthead__nav ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: var(--space-6);
+}
+.masthead__nav a { text-decoration: none; padding-block: var(--space-2); display: inline-block; }
+.masthead__nav a:hover { text-decoration: underline; text-decoration-thickness: 3px; }
+
+/* ---------- Hero ---------- */
+
+.hero { padding-block: var(--space-16) var(--space-12); }
+.eyebrow {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: var(--space-6);
+}
+h1 {
+  font-size: clamp(2.75rem, 1rem + 7vw, 6.5rem);
+  line-height: 0.95;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  margin-bottom: var(--space-8);
+}
+.hero__sub { font-size: var(--text-lg); max-width: 38ch; margin-bottom: var(--space-8); }
+.hero__actions { display: grid; grid-auto-flow: column; justify-content: start; gap: var(--space-4); }
+
+.btn {
+  display: inline-block;
+  padding: var(--space-3) var(--space-6);
+  border: 2px solid var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--paper);
+  color: var(--ink);
+}
+.btn:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+.btn--primary { background: var(--signal); border-color: var(--signal); color: var(--paper); }     /* red use 1 of 3 */
+.btn--primary:hover { background: var(--ink); border-color: var(--ink); }
+
+/* ---------- Facts ---------- */
+
+.facts { margin: 0; padding-block: var(--space-16) var(--space-12); }
+.fact { border-top: 1px solid var(--ink); padding-block: var(--space-4) var(--space-6); }
+.fact dt {
+  font-size: clamp(4rem, 2rem + 8vw, 8rem);
+  line-height: 0.9;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.fact--zero dt { color: var(--signal); }                                                           /* red use 2 of 3 */
+.fact dd { margin: var(--space-2) 0 0; max-width: 28ch; }
+
+/* ---------- Bands: hanging label left, body right ---------- */
+
+.band { padding-block: var(--space-8) var(--space-12); border-top: 1px solid var(--ink); align-content: start; }
+.band__label {
+  grid-column: label-start / label-end;
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.band > :not(.band__label) { grid-column: body-start / body-end; }
+
+h3, dt { font-weight: 700; }
+h3 { font-size: var(--text-lg); line-height: 1.5; margin-bottom: var(--space-2); }
+dd { margin: 0; }
+
+.cells {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-8) var(--space-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  counter-reset: cell;
+}
+ol.cells > li { counter-increment: cell; border-top: 3px solid var(--ink); padding-top: var(--space-2); }
+ol.cells > li::before {
+  content: counter(cell, decimal-leading-zero);
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--space-2);
+}
+dl.cells > div { border-top: 1px solid var(--ink); padding-top: var(--space-2); }
+dl.cells dt { margin-bottom: var(--space-1); }
+
+@media (min-width: 1200px) {
+  .cells { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------- Fees ---------- */
+
+.fees__intro { max-width: 52ch; margin-bottom: var(--space-6); }
+table { width: 100%; max-width: 40rem; border-collapse: collapse; }
+th, td { padding: var(--space-3) 0; text-align: left; border-top: 1px solid var(--ink); font-weight: 400; vertical-align: baseline; }
+thead th { font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; border-top: 0; border-bottom: 3px solid var(--ink); }
+tbody th { font-weight: 400; }
+td, thead th:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+tbody tr:last-child > * { border-bottom: 1px solid var(--ink); }
+
+/* ---------- Colophon / booking ---------- */
+
+.colophon { border-top: 3px solid var(--ink); padding-bottom: var(--space-16); }
+.colophon .band__label { font-size: var(--text-xl); line-height: 1.15; letter-spacing: -0.02em; }
+.colophon__lede { max-width: 48ch; font-size: var(--text-lg); margin-bottom: var(--space-6); }
+address { font-style: normal; margin-bottom: var(--space-8); }
+.phone {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--signal);                                                                              /* red use 3 of 3 */
+  text-decoration-thickness: 3px;
+}
+.small { max-width: 60ch; font-size: var(--text-sm); }
+
+/* ---------- Mobile: a different area map, not new placement rules ---------- */
+
+@media (max-width: 899px) {
+  body {
+    column-gap: 0;
+    grid-template-columns:
+      [full-start] var(--gutter)
+      [content-start label-start label-end body-start body-end content-end] minmax(0, 1fr)
+      var(--gutter) [full-end];
+    grid-template-areas:
+      "masthead masthead masthead"
+      ".        hero     ."
+      ".        facts    ."
+      "treat    treat    treat"
+      "team     team     team"
+      "fees     fees     fees"
+      "colo     colo     colo";
+  }
+  /* Labels and bodies share one column here, so they stack: the line names collapse
+     onto one line, which is the point of naming lines by meaning instead of number. */
+  .band__label { margin-bottom: var(--space-4); }
+  .masthead { row-gap: var(--space-2); }
+  .masthead__mark { grid-column: content-start / content-end; }
+  .masthead__nav { grid-column: content-start / content-end; }
+  .masthead__nav ul { gap: var(--space-4); }
+  .hero { padding-block: var(--space-12) var(--space-8); }
+  .facts { padding-block: var(--space-4) var(--space-12); }
+  .cells { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .hero__actions { grid-auto-flow: row; }
+  .btn { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a, .btn { transition: none; }
+}
