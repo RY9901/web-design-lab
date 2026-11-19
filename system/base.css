@@ -7,6 +7,12 @@
 
 @layer reset, tokens, layout, components, utilities;
 
+@layer reset {
+  /* Clip, not hidden: hidden on html turns the whole page into a scroll
+     container and breaks position: sticky on the nav. */
+  html, body { overflow-x: clip; }
+}
+
 /* --- reset ---------------------------------------------------------------- */
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
@@ -246,7 +252,42 @@
     transition: color 0.18s var(--ease);
   }
   .nav__links a:hover { color: var(--c-ink); }
-  @media (max-width: 860px) { .nav__links { display: none; } }
+  /* The menu is a <details> disclosure: no JavaScript, works with scripting
+     off, and the browser gives us the open/closed state and the button role
+     for free. Above the breakpoint the summary is gone and the list is simply
+     a row — the element stops behaving like a disclosure at all. */
+  .nav__toggle {
+    display: none;
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--c-muted);
+  }
+  .nav__toggle::-webkit-details-marker { display: none; }
+  .nav__toggle:hover { color: var(--c-ink); }
+
+  @media (max-width: 860px) {
+    .nav__toggle { display: block; }
+    .nav__menu { position: relative; }
+    .nav__menu[open] .nav__links {
+      display: grid;
+      gap: var(--space-4);
+      position: absolute;
+      inset-inline-end: 0;
+      top: calc(100% + var(--space-4));
+      min-width: 12rem;
+      padding: var(--space-5);
+      background: var(--c-surface);
+      border: 1px solid var(--c-line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+    }
+    .nav__menu:not([open]) .nav__links { display: none; }
+  }
+  /* Above it, the disclosure is inert and the list is just the nav row. */
+  @media (min-width: 861px) {
+    .nav__menu > .nav__links { display: flex; }
+  }
 
   /* A nav is one row. .cluster wraps by design, which at narrow widths turns
      the action group into a stack tall enough to collide with the brand. */

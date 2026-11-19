@@ -36,6 +36,16 @@
     --radius: 0;
     --radius-lg: 0;
 
+    /* The hero sits on a photograph, so it needs a second, darker set of
+       grounds than the paper palette above. These are tokens too. */
+    --c-night: var(--c-night);
+    --c-paper: #fbf7f1;
+    --c-paper-dim: var(--c-paper-dim);
+    --c-gold: var(--c-gold);
+    --c-gold-soft: var(--c-gold-soft);
+    --scrim: 11 8 6;
+    --c-paper-rgb: 251 247 241;
+
     --shadow-2: 0 18px 40px -22px rgb(38 27 18 / 0.3);
     --shadow-3: 0 50px 90px -40px rgb(38 27 18 / 0.45);
 
@@ -81,7 +91,7 @@
     align-items: end;
     isolation: isolate;
     overflow: clip;
-    background: #0d0b0a;
+    background: var(--c-night);
   }
   .hero__img {
     position: absolute;
@@ -103,10 +113,10 @@
     /* Two scrims: one weighting the foot of the frame, one bedding the
        left column so the type never sits on undefended detail. */
     background:
-      linear-gradient(to top, rgb(11 8 6 / 0.88) 0%, rgb(11 8 6 / 0.3) 34%, rgb(11 8 6 / 0.12) 62%, rgb(11 8 6 / 0.5) 100%),
-      linear-gradient(to right, rgb(11 8 6 / 0.6) 0%, rgb(11 8 6 / 0.12) 46%, transparent 72%);
+      linear-gradient(to top, rgb(var(--scrim) / 0.88) 0%, rgb(var(--scrim) / 0.3) 34%, rgb(var(--scrim) / 0.12) 62%, rgb(var(--scrim) / 0.5) 100%),
+      linear-gradient(to right, rgb(var(--scrim) / 0.6) 0%, rgb(var(--scrim) / 0.12) 46%, transparent 72%);
   }
-  .hero__inner { padding-block: var(--space-24) clamp(var(--space-12), 7vh, var(--space-20)); color: #fbf7f1; }
+  .hero__inner { padding-block: var(--space-24) clamp(var(--space-12), 7vh, var(--space-20)); color: var(--c-paper); }
   .hero__title {
     font-family: var(--font-display);
     font-size: var(--text-4xl);
@@ -115,9 +125,9 @@
     text-wrap: balance;
     /* A narrow column of large type beats a wide one every time. */
     max-width: 15ch;
-    text-shadow: 0 1px 36px rgb(11 8 6 / 0.55);
+    text-shadow: 0 1px 36px rgb(var(--scrim) / 0.55);
   }
-  .hero__title em { font-style: italic; color: #e9c7a0; }
+  .hero__title em { font-style: italic; color: var(--c-gold); }
   .hero__meta {
     display: flex;
     flex-wrap: wrap;
@@ -126,10 +136,10 @@
     font-size: var(--text-sm);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #e6ddd1;
+    color: var(--c-paper-dim);
   }
   /* Oxblood small caps vanish against a dark photograph. */
-  .hero .smallcaps { color: #f0d2ae; letter-spacing: 0.26em; }
+  .hero .smallcaps { color: var(--c-gold-soft); letter-spacing: 0.26em; }
 
   /* the card that breaks the hero edge — depth without a 3D effect */
   .overlap {
@@ -155,8 +165,8 @@
     align-items: start;
   }
   @media (min-width: 900px) {
-    .split { grid-template-columns: 5fr 7fr; }
-    .split--flip { grid-template-columns: 7fr 5fr; }
+    .split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .split--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
   }
 
   .dropcap::first-letter {
@@ -277,7 +287,7 @@
     padding: var(--space-4) var(--space-8);
   }
   .btn--primary { --btn-bg: var(--c-accent); --btn-ink: var(--c-accent-ink); }
-  .btn--light { --btn-bg: transparent; --btn-ink: #fbf7f1; border-color: rgb(251 247 241 / 0.5); }
+  .btn--light { --btn-bg: transparent; --btn-ink: var(--c-paper); border-color: rgb(var(--c-paper-rgb) / 0.5); }
 
   /* --- nav, lightened over the photograph -------------------------------- */
   .nav {
@@ -287,7 +297,7 @@
     z-index: 20;
     background: transparent;
     backdrop-filter: none;
-    color: #fbf7f1;
+    color: var(--c-paper);
   }
   .nav__inner { padding-block: clamp(var(--space-5), 2.4vw, var(--space-8)); }
   .nav__brand {
@@ -296,21 +306,21 @@
     letter-spacing: 0.01em;
   }
   .nav__links { gap: clamp(var(--space-5), 2.6vw, var(--space-10)); }
-  .nav__links a { color: rgb(251 247 241 / 0.72); letter-spacing: 0.16em; text-transform: uppercase; font-size: var(--text-xs); }
-  .nav__links a:hover { color: #fbf7f1; }
+  .nav__links a { color: rgb(var(--c-paper-rgb) / 0.72); letter-spacing: 0.16em; text-transform: uppercase; font-size: var(--text-xs); }
+  .nav__links a:hover { color: var(--c-paper); }
 
   /* A boxed button in the corner is the tell of a template. A ruled word
      carries the same weight and costs the composition nothing. */
   .nav__book {
-    color: #fbf7f1;
+    color: var(--c-paper);
     font-size: var(--text-xs);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     padding-block-end: 0.35em;
-    border-block-end: 1px solid rgb(251 247 241 / 0.45);
+    border-block-end: 1px solid rgb(var(--c-paper-rgb) / 0.45);
     transition: border-color 0.3s var(--ease-out);
   }
-  .nav__book:hover { border-block-end-color: #e9c7a0; }
+  .nav__book:hover { border-block-end-color: var(--c-gold); }
 
   .footer { background: var(--c-ink); color: var(--c-ground); border: 0; }
   .footer a, .footer h3 { color: color-mix(in oklab, var(--c-ground) 72%, transparent); }
