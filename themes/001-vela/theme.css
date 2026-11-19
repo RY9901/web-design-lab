@@ -26,6 +26,12 @@
     --display-tracking: -0.035em;
     --display-leading: 0.94;
 
+    /* The glow ramp and the two semantic states are colours too. */
+    --c-accent-3: #a78bfa;
+    --c-accent-deep: #5b4bc4;
+    --c-danger: #ff8e72;
+    --c-ok: #8ce99a;
+
     --radius: 14px;
     --radius-lg: 22px;
 
@@ -61,8 +67,8 @@
        where it belongs: links, states, data. */
     background:
       radial-gradient(40% 48% at 58% 32%, var(--c-accent-2) 0%, transparent 66%),
-      radial-gradient(24% 30% at 44% 26%, #a78bfa 0%, transparent 70%),
-      radial-gradient(30% 36% at 72% 40%, #5b4bc4 0%, transparent 72%);
+      radial-gradient(24% 30% at 44% 26%, var(--c-accent-3) 0%, transparent 70%),
+      radial-gradient(30% 36% at 72% 40%, var(--c-accent-deep) 0%, transparent 72%);
   }
   .aurora::after {
     inset: 0;
@@ -70,7 +76,7 @@
       linear-gradient(to right, var(--c-line-soft) 1px, transparent 1px),
       linear-gradient(to bottom, var(--c-line-soft) 1px, transparent 1px);
     background-size: 68px 68px;
-    mask-image: radial-gradient(70% 55% at 50% 12%, #000 0%, transparent 78%);
+    mask-image: radial-gradient(70% 55% at 50% 12%, var(--c-ink) 0%, transparent 78%);
     filter: none;
     opacity: 0.6;
   }
@@ -146,7 +152,7 @@
   }
   .run__state { color: var(--c-accent); }
   .run--queued .run__state { color: var(--c-muted); }
-  .run--failed .run__state { color: #ff8e72; }
+  .run--failed .run__state { color: var(--c-danger); }
   .run__ms { color: var(--c-muted); font-variant-numeric: tabular-nums; }
 
   /* a bar chart out of divs */
@@ -196,7 +202,7 @@
     line-height: 1.7;
   }
   .code .k { color: var(--c-accent-2); }
-  .code .s { color: #8ce99a; }
+  .code .s { color: var(--c-ok); }
   .code .f { color: var(--c-accent); }
   .code .c { color: var(--c-muted); font-style: italic; }
 

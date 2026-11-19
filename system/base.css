@@ -273,7 +273,7 @@
       display: grid;
       gap: var(--space-4);
       position: absolute;
-      inset-inline-end: 0;
+      inset-inline-start: 0;
       top: calc(100% + var(--space-4));
       min-width: 12rem;
       padding: var(--space-5);
@@ -281,6 +281,13 @@
       border: 1px solid var(--c-line);
       border-radius: var(--radius);
       box-shadow: var(--shadow-2);
+    }
+    /* A theme whose nav sits on a photograph lightens its links to paper.
+       Inside the panel the ground is the surface again, so the panel restates
+       the text colour rather than inheriting a colour meant for the photo. */
+    .nav__menu[open] .nav__links a {
+      color: var(--c-ink);
+      opacity: 1;
     }
     .nav__menu:not([open]) .nav__links { display: none; }
   }
