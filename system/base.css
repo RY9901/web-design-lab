@@ -152,13 +152,9 @@
   .display--hero { font-size: var(--text-4xl); }
   .display--section { font-size: var(--text-2xl); }
 
-  .eyebrow {
-    font-size: var(--text-xs);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--c-muted);
-    font-weight: 500;
-  }
+  /* .eyebrow and .numbered used to live here. They are tracked-caps label
+     devices that themes 003 onward are not allowed to use, so they moved into
+     001-vela, the one theme that still wants them. */
 
   .lede {
     font-size: var(--text-lg);
@@ -291,9 +287,14 @@
     }
     .nav__menu:not([open]) .nav__links { display: none; }
   }
-  /* Above it, the disclosure is inert and the list is just the nav row. */
+  /* Above it, the disclosure is inert and the list is just the nav row.
+     Engines hide a closed <details> two different ways: Firefox and Safari
+     use display on the children, which the first rule overrides, while
+     Chrome 131+ uses content-visibility on ::details-content, which the
+     second does. Browsers that do not know the pseudo-element ignore it. */
   @media (min-width: 861px) {
     .nav__menu > .nav__links { display: flex; }
+    .nav__menu::details-content { content-visibility: visible; }
   }
 
   /* A nav is one row. .cluster wraps by design, which at narrow widths turns
@@ -329,15 +330,7 @@
   .card__body { color: var(--c-muted); margin-block-start: var(--space-3); }
 
   /* numbered list */
-  .numbered { list-style: none; padding: 0; counter-reset: n; }
-  .numbered > li { counter-increment: n; display: grid; gap: var(--space-1); }
-  .numbered > li::before {
-    content: counter(n, decimal-leading-zero);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--c-accent);
-    letter-spacing: 0.08em;
-  }
+
 
   /* metrics */
   .metric__value {
@@ -361,7 +354,7 @@
     padding: var(--space-4) var(--space-3);
     border-block-end: 1px solid var(--c-line-soft);
   }
-  .table th { font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-muted); font-weight: 500; }
+  .table th { font-size: var(--text-sm); color: var(--c-muted); font-weight: 600; }
   .table tbody tr:last-child td { border-block-end: 0; }
 
   /* accordion */

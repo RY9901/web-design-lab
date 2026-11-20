@@ -41,6 +41,25 @@
 }
 
 @layer components {
+  /* Moved here from system/base.css: tracked-caps label devices that only
+     this theme uses. Themes built to the floor must not have them available. */
+  .eyebrow {
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+    font-weight: 500;
+  }
+  .numbered { list-style: none; padding: 0; counter-reset: n; }
+  .numbered > li { counter-increment: n; display: grid; gap: var(--space-1); }
+  .numbered > li::before {
+    content: counter(n, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--c-accent);
+    letter-spacing: 0.08em;
+  }
+
   /* --- aurora ground: the glow, done in CSS, no images ------------------- */
   .aurora {
     position: relative;

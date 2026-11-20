@@ -190,6 +190,24 @@ async function checkDesign(slug) {
 // Themes are the sellable pack. They carry no brief and no constraint, so they
 // get the structural checks only — but they DO get them. They were shipping
 // completely ungated, which is how a page goes out with faults nobody saw.
+
+// A var() pointing at a token nobody declares resolves to nothing, and the
+// property is dropped — no error, no warning, just a collapsed button or a
+// missing gap. This is the check that would have caught --space-7.
+function declaredTokens(css) {
+  const out = new Set();
+  for (const m of css.matchAll(/(--[a-zA-Z0-9-]+)\s*:/g)) out.add(m[1]);
+  return out;
+}
+
+function checkTokenRefs(where, css, declared) {
+  const used = new Set();
+  for (const m of css.matchAll(/var\(\s*(--[a-zA-Z0-9-]+)/g)) used.add(m[1]);
+  for (const t of [...used].filter((x) => !declared.has(x)).sort()) {
+    err(where, `uses ${t}, which no stylesheet declares — the property is dropped silently`);
+  }
+}
+
 async function checkTheme(slug) {
   const dir = path.join(THEMES, slug);
   const where = `themes/${slug}`;
@@ -213,6 +231,8 @@ async function checkTheme(slug) {
     err(where, "no theme.css — a theme must define its own token layer");
   } else {
     const css = await readFile(themeCss, "utf8");
+    const base = await readFile(path.join(ROOT, "system", "base.css"), "utf8");
+    checkTokenRefs(where, css, new Set([...declaredTokens(base), ...declaredTokens(css)]));
     // The theme layer’s whole job is to restate the contract from base.css.
     for (const token of ["--c-ground", "--c-ink", "--c-accent", "--font-display"]) {
       if (!css.includes(token)) warn(where, `theme.css never redefines ${token}`);

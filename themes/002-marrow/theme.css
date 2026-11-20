@@ -60,7 +60,7 @@
 
   /* Rhythm. The first pass let sections breathe so hard they read as
      unfinished rather than generous. Space is only luxurious when it repeats. */
-  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-28)); }
+  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-24)); }
   .section > .wrap + .wrap { margin-block-start: clamp(var(--space-12), 5vw, var(--space-20)); }
 
   .display { font-weight: 400; }
@@ -205,7 +205,7 @@
   }
   /* The offset that stops a pair of images looking like a grid. Enough to
      break the line, not so much it tears a hole in the page. */
-  .offset-down { margin-block-start: clamp(var(--space-6), 4vw, var(--space-14)); }
+  .offset-down { margin-block-start: clamp(var(--space-6), 4vw, var(--space-12)); }
 
   /* --- the menu: typography doing all the work --------------------------- */
   .menu { display: grid; gap: clamp(var(--space-10), 4vw, var(--space-16)); }

@@ -2,7 +2,6 @@
  * paper: oklch(0.959 0.005 95) · accent: oklch(0.92 0.179 117) · display: Bricolage Grotesque · body: Archivo · hero: head left, one project card right already turning over · nav: wordmark, three links, one action · footer: mast over four columns · imagery: none — type-led, with slots the buyer fills · signature: project cards that turn over on hover and on focus, no JavaScript
  * axes: warm-paper/grotesque/lime · posture: split · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S3 R4 V5 · weakest: S, a soft-brutalist agency page is a worn genre and this studio is fictional; led with the cards as the one memorable object and used labelled slots instead of invented clients, logos or project counts */
-/* Hallmark · waive 67: .eyebrow, .numbered and .table th are tracked-caps labels in the shared system/base.css, used only by Marrow and Vela, which were signed off before the pack adopted the floor. Atlas Works uses none of the three. */
 /* Hallmark · answered F4: the second hero action is .btn--ghost, which resolves to a transparent background from the base layer; the linter reads the class, not the computed fill. One filled button on the screen. */
 /* Hallmark · answered 42: the nav is a 2px ink rule with no blur and three links, which is this theme's shape rather than the default hairline. */
 
@@ -56,7 +55,7 @@
 
 @layer components {
   .section + .section { border-block-start: 0; }
-  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-28)); }
+  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-24)); }
   .section > .wrap + .wrap { margin-block-start: clamp(var(--space-10), 4vw, var(--space-16)); }
 
   .display { font-weight: 700; }
@@ -76,7 +75,7 @@
   .hero {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(var(--space-16), 8vw, var(--space-28)) clamp(var(--space-16), 7vw, var(--space-24));
+    padding-block: clamp(var(--space-16), 8vw, var(--space-24)) clamp(var(--space-16), 7vw, var(--space-24));
     border-block-end: 2px solid var(--c-ink);
   }
   .hero::before {
@@ -121,7 +120,7 @@
     font-weight: 600;
     letter-spacing: 0;
     text-transform: none;
-    padding: var(--space-4) var(--space-7);
+    padding: var(--space-4) var(--space-8);
     box-shadow: var(--shadow-1);
     transition: transform 0.14s var(--ease-out), box-shadow 0.14s var(--ease-out);
   }
@@ -276,7 +275,7 @@
   .service__copy { grid-column: 3; grid-row: 1; color: var(--c-muted); max-width: 52ch; }
 
   /* --- studio: a slot the buyer fills ------------------------------------ */
-  .studio { display: grid; gap: clamp(var(--space-8), 4vw, var(--space-14)); align-items: center; }
+  .studio { display: grid; gap: clamp(var(--space-8), 4vw, var(--space-12)); align-items: center; }
   @media (min-width: 62rem) {
     .studio { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
   }
