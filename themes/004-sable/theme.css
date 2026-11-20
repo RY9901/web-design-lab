@@ -58,6 +58,8 @@
   .section > .wrap + .wrap { margin-block-start: clamp(var(--space-10), 4vw, var(--space-16)); }
 
   .display { font-weight: 400; }
+  .display--section + .prose,
+  .display--section + p { margin-block-start: var(--space-5); }
   h1, h2, h3 { text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
 
   /* Fraunces is a variable face; low optical size keeps it warm rather than
@@ -152,7 +154,7 @@
   /* the measured rule: a drawing's dimension line, in CSS */
   .dim {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: var(--space-4);
     align-items: center;
     color: var(--c-accent);
@@ -160,9 +162,20 @@
     font-variant-numeric: tabular-nums;
     margin-block-start: var(--space-8);
   }
-  .dim::before,
-  .dim::after { content: ""; display: block; width: 1px; height: 0.9rem; background: currentColor; }
-  .dim span { border-block-start: 1px solid currentColor; height: 1px; font-size: 0; }
+  .dim__rule { position: relative; height: 1px; background: currentColor; }
+  /* The ticks that close a dimension line, one at each end. */
+  .dim__rule::before,
+  .dim__rule::after {
+    content: "";
+    position: absolute;
+    top: -0.45rem;
+    width: 1px;
+    height: 0.9rem;
+    background: currentColor;
+  }
+  .dim__rule::before { inset-inline-start: 0; }
+  .dim__rule::after { inset-inline-end: 0; }
+  .dim__fig { font-weight: 600; }
 
   /* --- listings ----------------------------------------------------------- */
   .listings { display: grid; gap: clamp(var(--space-8), 3vw, var(--space-12)); }
