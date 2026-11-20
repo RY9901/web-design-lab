@@ -55,9 +55,10 @@ page in a row and the pack would have read as one theme with three palettes.
 
 ## What I could not check
 
-- **The rendered page.** The `sloplint` render tier needs puppeteer, which is not installed.
-  Everything below is from reading the page in a browser by hand at 1440, 768 and 375 — no
-  automated overflow or contrast check against a real render.
+- **Automated render checks.** The `sloplint` render tier needs puppeteer, which is not
+  installed. The page was reviewed by hand in a browser at 1440 and 375 — no horizontal
+  overflow at either, hero and spec sheet confirmed — but no automated contrast check against
+  a real render.
 - **Fraunces variable axes.** `font-variation-settings: "opsz" 18, "SOFT" 0, "WONK" 0` is set
   from the specimen, not measured. If the display looks too literary, `opsz` is the dial.
 - Safari and Firefox. Checked in the built-in Chromium only.
