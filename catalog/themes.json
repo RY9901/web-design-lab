@@ -15,10 +15,34 @@
       "name": "Vela",
       "vertical": "B2B SaaS / developer tooling",
       "direction": "techno-minimal — precise, dense, confident. Deep ink ground, one electric accent, hairline rules, generous negative space around tight type.",
-      "palette": { "ground": "#0b0f14", "surface": "#141a22", "ink": "#e8edf4", "accent": "#4dd0e1", "muted": "#8a97a8" },
-      "type": { "display": "Space Grotesk", "body": "Inter", "pairing_note": "Grotesk display at tight tracking over Inter at 1.6 line-height" },
-      "pages": ["index", "pricing", "docs", "contact"],
-      "components": ["sticky nav with scroll state", "hero with product frame", "feature grid", "code block", "pricing table", "logo strip", "FAQ accordion", "footer"],
+      "palette": {
+        "ground": "#0b0f14",
+        "surface": "#141a22",
+        "ink": "#e8edf4",
+        "accent": "#4dd0e1",
+        "muted": "#8a97a8"
+      },
+      "type": {
+        "display": "Space Grotesk",
+        "body": "Inter",
+        "pairing_note": "Grotesk display at tight tracking over Inter at 1.6 line-height"
+      },
+      "pages": [
+        "index",
+        "pricing",
+        "docs",
+        "contact"
+      ],
+      "components": [
+        "sticky nav with scroll state",
+        "hero with product frame",
+        "feature grid",
+        "code block",
+        "pricing table",
+        "logo strip",
+        "FAQ accordion",
+        "footer"
+      ],
       "signature": "a glowing product frame in the hero, built entirely in CSS",
       "status": "unbuilt",
       "builtAt": null
@@ -29,10 +53,33 @@
       "name": "Marrow",
       "vertical": "restaurant / fine dining",
       "direction": "editorial-luxe — magazine restraint applied to hospitality. Ivory paper, oxblood, a high-contrast serif at display size, full-bleed photography with text overlaid at the margins.",
-      "palette": { "ground": "#faf7f2", "surface": "#f0ebe3", "ink": "#1a1613", "accent": "#7b2d26", "muted": "#6f665c" },
-      "type": { "display": "Instrument Serif", "body": "DM Sans", "pairing_note": "Serif display very large and tight; sans body small and wide-tracked for labels" },
-      "pages": ["index", "menu", "reservations", "contact"],
-      "components": ["full-bleed hero", "menu list with dot leaders", "reservation form", "hours table", "gallery strip", "quote block", "footer with map embed slot"],
+      "palette": {
+        "ground": "#faf7f2",
+        "surface": "#f0ebe3",
+        "ink": "#1a1613",
+        "accent": "#7b2d26",
+        "muted": "#6f665c"
+      },
+      "type": {
+        "display": "Instrument Serif",
+        "body": "DM Sans",
+        "pairing_note": "Serif display very large and tight; sans body small and wide-tracked for labels"
+      },
+      "pages": [
+        "index",
+        "menu",
+        "reservations",
+        "contact"
+      ],
+      "components": [
+        "full-bleed hero",
+        "menu list with dot leaders",
+        "reservation form",
+        "hours table",
+        "gallery strip",
+        "quote block",
+        "footer with map embed slot"
+      ],
       "signature": "the menu page — typography doing all the work, no decoration",
       "status": "unbuilt",
       "builtAt": null
@@ -43,13 +90,36 @@
       "name": "Atlas Works",
       "vertical": "creative agency / design studio",
       "direction": "soft-brutalist — oversized type, offset blocks, visible grid, one loud accent. Confident rather than shouty: hard edges with warm paper and real shadows.",
-      "palette": { "ground": "#f4f3ef", "surface": "#ffffff", "ink": "#121212", "accent": "#d9f24b", "muted": "#5b5b57" },
-      "type": { "display": "Bricolage Grotesque", "body": "Archivo", "pairing_note": "Variable display pushed to its widest and tightest; body kept plain" },
-      "pages": ["index", "work", "case-study", "contact"],
-      "components": ["marquee strip", "project card with hover reveal", "case-study layout", "team grid", "service list with numbers", "big CTA block", "footer"],
+      "palette": {
+        "ground": "#f4f3ef",
+        "surface": "#ffffff",
+        "ink": "#121212",
+        "accent": "#d9f24b",
+        "muted": "#5b5b57"
+      },
+      "type": {
+        "display": "Bricolage Grotesque",
+        "body": "Archivo",
+        "pairing_note": "Variable display pushed to its widest and tightest; body kept plain"
+      },
+      "pages": [
+        "index",
+        "work",
+        "case-study",
+        "contact"
+      ],
+      "components": [
+        "marquee strip",
+        "project card with hover reveal",
+        "case-study layout",
+        "team grid",
+        "service list with numbers",
+        "big CTA block",
+        "footer"
+      ],
       "signature": "project cards that reveal a second layer on hover, no JavaScript",
-      "status": "unbuilt",
-      "builtAt": null
+      "status": "built",
+      "builtAt": "2026-11-20"
     },
     {
       "id": 4,
@@ -57,10 +127,33 @@
       "name": "Sable",
       "vertical": "real estate / architecture practice",
       "direction": "architectural — stone and glass. Muted neutrals, very large photography, thin rules, numbers treated as a design element. Calm, expensive, unhurried.",
-      "palette": { "ground": "#ecebe8", "surface": "#ffffff", "ink": "#23231f", "accent": "#8a7a62", "muted": "#767269" },
-      "type": { "display": "Fraunces", "body": "Manrope", "pairing_note": "Fraunces at low optical size for warmth; Manrope for specs and figures" },
-      "pages": ["index", "listings", "listing-detail", "contact"],
-      "components": ["split hero", "listing card with spec row", "spec table", "image gallery with scroll-snap", "enquiry form", "agent card", "footer"],
+      "palette": {
+        "ground": "#ecebe8",
+        "surface": "#ffffff",
+        "ink": "#23231f",
+        "accent": "#8a7a62",
+        "muted": "#767269"
+      },
+      "type": {
+        "display": "Fraunces",
+        "body": "Manrope",
+        "pairing_note": "Fraunces at low optical size for warmth; Manrope for specs and figures"
+      },
+      "pages": [
+        "index",
+        "listings",
+        "listing-detail",
+        "contact"
+      ],
+      "components": [
+        "split hero",
+        "listing card with spec row",
+        "spec table",
+        "image gallery with scroll-snap",
+        "enquiry form",
+        "agent card",
+        "footer"
+      ],
       "signature": "the listing detail page — specs set like a technical drawing",
       "status": "unbuilt",
       "builtAt": null
@@ -71,10 +164,34 @@
       "name": "Kinfold",
       "vertical": "wellness studio / private clinic",
       "direction": "warm-organic — sage and clay, generous radii, soft layered shadows, rounded photography, lots of air. Reassuring without being saccharine.",
-      "palette": { "ground": "#fbf9f5", "surface": "#ffffff", "ink": "#2b322c", "accent": "#7d9b76", "muted": "#6e756d" },
-      "type": { "display": "Outfit", "body": "Inter", "pairing_note": "Geometric sans display at medium weight; nothing sharp anywhere" },
-      "pages": ["index", "treatments", "team", "booking"],
-      "components": ["soft hero with offset image", "treatment card", "price list", "practitioner card", "testimonial carousel", "booking form", "opening hours", "footer"],
+      "palette": {
+        "ground": "#fbf9f5",
+        "surface": "#ffffff",
+        "ink": "#2b322c",
+        "accent": "#7d9b76",
+        "muted": "#6e756d"
+      },
+      "type": {
+        "display": "Outfit",
+        "body": "Inter",
+        "pairing_note": "Geometric sans display at medium weight; nothing sharp anywhere"
+      },
+      "pages": [
+        "index",
+        "treatments",
+        "team",
+        "booking"
+      ],
+      "components": [
+        "soft hero with offset image",
+        "treatment card",
+        "price list",
+        "practitioner card",
+        "testimonial carousel",
+        "booking form",
+        "opening hours",
+        "footer"
+      ],
       "signature": "layered soft shadows and an offset hero image that feels physical",
       "status": "unbuilt",
       "builtAt": null
@@ -85,10 +202,34 @@
       "name": "Orbit",
       "vertical": "conference / event",
       "direction": "high-contrast gradient — dark ground, vivid gradient mesh, translucent cards with real backdrop blur. The one theme in the pack that is allowed to be flashy, done with restraint.",
-      "palette": { "ground": "#07060d", "surface": "rgba(255,255,255,0.06)", "ink": "#f2f0ff", "accent": "#a78bfa", "accent2": "#f472b6", "muted": "#9d98b8" },
-      "type": { "display": "Sora", "body": "Inter", "pairing_note": "Sora tight and heavy for the date and title; Inter for schedule density" },
-      "pages": ["index", "schedule", "speakers", "tickets"],
-      "components": ["countdown hero", "speaker card", "schedule table by track", "ticket tier cards", "sponsor grid", "venue block", "footer"],
+      "palette": {
+        "ground": "#07060d",
+        "surface": "rgba(255,255,255,0.06)",
+        "ink": "#f2f0ff",
+        "accent": "#a78bfa",
+        "accent2": "#f472b6",
+        "muted": "#9d98b8"
+      },
+      "type": {
+        "display": "Sora",
+        "body": "Inter",
+        "pairing_note": "Sora tight and heavy for the date and title; Inter for schedule density"
+      },
+      "pages": [
+        "index",
+        "schedule",
+        "speakers",
+        "tickets"
+      ],
+      "components": [
+        "countdown hero",
+        "speaker card",
+        "schedule table by track",
+        "ticket tier cards",
+        "sponsor grid",
+        "venue block",
+        "footer"
+      ],
       "signature": "a CSS-only gradient mesh behind glass cards, no images needed",
       "status": "unbuilt",
       "builtAt": null
@@ -99,10 +240,33 @@
       "name": "Ridgeline",
       "vertical": "outdoor / adventure retail",
       "direction": "nature-earthy — forest, sand and slate. Full-bleed landscape photography, heavy slab-ish display type, sturdy components that look like they could take weather.",
-      "palette": { "ground": "#f5f2ec", "surface": "#ffffff", "ink": "#1d2420", "accent": "#2f5d4a", "muted": "#5e6660" },
-      "type": { "display": "Syne", "body": "Inter", "pairing_note": "Syne heavy and wide for headlines; Inter for product detail" },
-      "pages": ["index", "shop", "product", "about"],
-      "components": ["full-bleed photo hero", "product card", "product detail with variant picker", "size table", "field-notes editorial block", "newsletter block", "footer"],
+      "palette": {
+        "ground": "#f5f2ec",
+        "surface": "#ffffff",
+        "ink": "#1d2420",
+        "accent": "#2f5d4a",
+        "muted": "#5e6660"
+      },
+      "type": {
+        "display": "Syne",
+        "body": "Inter",
+        "pairing_note": "Syne heavy and wide for headlines; Inter for product detail"
+      },
+      "pages": [
+        "index",
+        "shop",
+        "product",
+        "about"
+      ],
+      "components": [
+        "full-bleed photo hero",
+        "product card",
+        "product detail with variant picker",
+        "size table",
+        "field-notes editorial block",
+        "newsletter block",
+        "footer"
+      ],
       "signature": "the product page — retail detail that still feels like a magazine",
       "status": "unbuilt",
       "builtAt": null
@@ -113,10 +277,33 @@
       "name": "Monogram",
       "vertical": "personal portfolio / creator",
       "direction": "refined monochrome — near-black on warm white, one display face at enormous size, immaculate spacing. The restrained one, and the hardest to get right.",
-      "palette": { "ground": "#fcfcfa", "surface": "#f3f3f0", "ink": "#101010", "accent": "#101010", "muted": "#6a6a66" },
-      "type": { "display": "Playfair Display", "body": "Inter", "pairing_note": "Playfair at 10rem+ with tight leading; everything else quiet" },
-      "pages": ["index", "about", "writing", "contact"],
-      "components": ["type-led hero", "selected-work list", "article list", "pull quote", "now-playing / status block", "contact form", "footer"],
+      "palette": {
+        "ground": "#fcfcfa",
+        "surface": "#f3f3f0",
+        "ink": "#101010",
+        "accent": "#101010",
+        "muted": "#6a6a66"
+      },
+      "type": {
+        "display": "Playfair Display",
+        "body": "Inter",
+        "pairing_note": "Playfair at 10rem+ with tight leading; everything else quiet"
+      },
+      "pages": [
+        "index",
+        "about",
+        "writing",
+        "contact"
+      ],
+      "components": [
+        "type-led hero",
+        "selected-work list",
+        "article list",
+        "pull quote",
+        "now-playing / status block",
+        "contact form",
+        "footer"
+      ],
       "signature": "the homepage headline — one sentence, set perfectly",
       "status": "unbuilt",
       "builtAt": null

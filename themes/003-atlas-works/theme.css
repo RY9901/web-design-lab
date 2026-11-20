@@ -1,0 +1,339 @@
+/* Hallmark · shape: Index-First · genre: editorial · theme: Atlas Works (by request) · job: hire · idea: "A small studio shows the work and makes it easy to start the next one." · vibe: "soft-brutalist, warm paper, one loud lime"
+ * paper: oklch(0.959 0.005 95) · accent: oklch(0.92 0.179 117) · display: Bricolage Grotesque · body: Archivo · hero: head left, one project card right already turning over · nav: wordmark, three links, one action · footer: mast over four columns · imagery: none — type-led, with slots the buyer fills · signature: project cards that turn over on hover and on focus, no JavaScript
+ * axes: warm-paper/grotesque/lime · posture: split · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S3 R4 V5 · weakest: S, a soft-brutalist agency page is a worn genre and this studio is fictional; led with the cards as the one memorable object and used labelled slots instead of invented clients, logos or project counts */
+/* Hallmark · waive 67: .eyebrow, .numbered and .table th are tracked-caps labels in the shared system/base.css, used only by Marrow and Vela, which were signed off before the pack adopted the floor. Atlas Works uses none of the three. */
+/* Hallmark · answered F4: the second hero action is .btn--ghost, which resolves to a transparent background from the base layer; the linter reads the class, not the computed fill. One filled button on the screen. */
+/* Hallmark · answered 42: the nav is a 2px ink rule with no blur and three links, which is this theme's shape rather than the default hairline. */
+
+/* ============================================================================
+   ATLAS WORKS — soft-brutalist. Creative studio.
+   The first theme in the pack built to the Hallmark floor, so it deliberately
+   drops the devices Marrow and Vela share: no eyebrow above a heading, no
+   tracked small caps, no accent word inside a headline. Labels are the body
+   face, a step down, sentence case. Hierarchy comes from scale and offset.
+   ========================================================================= */
+
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    --c-ground: #f4f3ef;
+    --c-surface: #fdfdfb;      /* tinted, never a pure absolute */
+    --c-surface-2: #e9e7e0;
+    --c-ink: #121212;
+    --c-muted: #5b5b57;        /* 6.2:1 on the ground */
+    --c-accent: #d9f24b;
+    --c-accent-ink: #121212;   /* ink on lime, not paper */
+    --c-line: color-mix(in oklab, var(--c-ink) 18%, transparent);
+    --c-line-soft: color-mix(in oklab, var(--c-ink) 9%, transparent);
+
+    --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+    --font-body: "Archivo", system-ui, sans-serif;
+
+    --display-tracking: -0.035em;
+    --display-leading: 0.9;
+    --leading: 1.55;
+
+    --text-4xl: clamp(2.9rem, 1.6rem + 5.6vw, 6.8rem);
+    --text-3xl: clamp(2.2rem, 1.5rem + 3.2vw, 4.2rem);
+    --text-2xl: clamp(1.7rem, 1.3rem + 1.9vw, 2.7rem);
+
+    /* Hard edges. Nothing here is rounded except the one pill. */
+    --radius-sm: 0;
+    --radius: 0;
+    --radius-lg: 0;
+
+    /* Offset, not glow: the shadow is a solid block of ink. */
+    --shadow-1: 4px 4px 0 var(--c-ink);
+    --shadow-2: 8px 8px 0 var(--c-ink);
+    --shadow-3: 14px 14px 0 var(--c-ink);
+
+    --container: 82rem;
+    --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  }
+}
+
+@layer components {
+  .section + .section { border-block-start: 0; }
+  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-28)); }
+  .section > .wrap + .wrap { margin-block-start: clamp(var(--space-10), 4vw, var(--space-16)); }
+
+  .display { font-weight: 700; }
+  h1, h2, h3 { text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
+
+  /* --- labels: body face, a step down, sentence case, untracked ---------- */
+  .label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--c-muted);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* --- the visible grid, drawn once behind the hero ---------------------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(var(--space-16), 8vw, var(--space-28)) clamp(var(--space-16), 7vw, var(--space-24));
+    border-block-end: 2px solid var(--c-ink);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(to right, var(--c-line-soft) 1px, transparent 1px);
+    background-size: calc(100% / 6) 100%;
+  }
+  .hero__grid { display: grid; gap: clamp(var(--space-10), 5vw, var(--space-16)); align-items: center; }
+  @media (min-width: 62rem) {
+    .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+  .hero__lede {
+    font-size: var(--text-lg);
+    color: var(--c-muted);
+    max-width: 36ch;
+    margin-block-start: var(--space-6);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-block-start: var(--space-8);
+  }
+
+  /* --- buttons: square, inked, offset ------------------------------------ */
+  .btn {
+    border-radius: 0;
+    border: 2px solid var(--c-ink);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    padding: var(--space-4) var(--space-7);
+    box-shadow: var(--shadow-1);
+    transition: transform 0.14s var(--ease-out), box-shadow 0.14s var(--ease-out);
+  }
+  .btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--c-ink); }
+  .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--c-ink); }
+  .btn--primary { --btn-bg: var(--c-accent); --btn-ink: var(--c-accent-ink); }
+  .btn--plain { --btn-bg: var(--c-surface); --btn-ink: var(--c-ink); }
+  /* One filled button per screen; the second uses the base ghost variant. */
+  .btn--ghost { --btn-ink: var(--c-ink); }
+  .btn--nowrap { white-space: nowrap; }
+  .section__intro { margin-block-start: var(--space-5); max-width: 46ch; }
+  .services { margin-block-start: clamp(var(--space-8), 3vw, var(--space-12)); }
+
+  /* --- the signature: a card that turns over ----------------------------- */
+  .project {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    border: 2px solid var(--c-ink);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-2);
+    min-height: 19rem;
+    display: grid;
+  }
+  .project__face {
+    padding: var(--space-6);
+    display: grid;
+    align-content: space-between;
+    gap: var(--space-6);
+  }
+  /* The name leads in the DOM; the number is placed back on top visually and
+     hidden from assistive tech, because it is a marker, not a label. */
+  .project__num { order: -1; }
+  .project__num {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .project__name {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .project__kind { color: var(--c-muted); font-size: var(--text-sm); }
+
+  /* The second layer. Transform and opacity only, and it is reachable by
+     keyboard because the whole card is a link. */
+  .project__back {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: var(--space-6);
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+    display: grid;
+    align-content: space-between;
+    gap: var(--space-6);
+    translate: 0 100%;
+    transition: translate 0.32s var(--ease-out);
+  }
+  .project:hover .project__back,
+  .project:focus-within .project__back { translate: 0 0; }
+  .project__copy { font-size: var(--text-base); max-width: 34ch; }
+  .project__go { font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* A card is one link; the whole face is the target. */
+  .project__link::after { content: ""; position: absolute; inset: 0; z-index: 3; }
+  .project__link { text-decoration: none; }
+
+  /* No hover on touch, so the second layer is simply shown. */
+  @media (hover: none) {
+    .project__back { position: static; translate: none; }
+    .project { min-height: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .project__back { transition: none; }
+  }
+
+  /* --- the work grid: offset, not a neat row ----------------------------- */
+  .work { display: grid; gap: clamp(var(--space-6), 2.5vw, var(--space-10)); }
+  @media (min-width: 52rem) {
+    .work { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .work > :nth-child(even) { margin-block-start: clamp(var(--space-8), 4vw, var(--space-16)); }
+  }
+  @media (min-width: 78rem) {
+    .work { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .work > :nth-child(even) { margin-block-start: 0; }
+    .work > :nth-child(3n + 2) { margin-block-start: clamp(var(--space-8), 4vw, var(--space-16)); }
+  }
+
+  /* --- marquee: one strip, transform only, still when asked -------------- */
+  .strip {
+    border-block: 2px solid var(--c-ink);
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+    overflow: clip;
+    padding-block: var(--space-4);
+  }
+  .strip__row {
+    display: flex;
+    gap: var(--space-10);
+    width: max-content;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .strip__row { animation: strip 28s linear infinite; }
+  }
+  @keyframes strip {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* --- services: numbers that are structure, not decoration -------------- */
+  .services { display: grid; gap: 0; border-block-start: 2px solid var(--c-ink); }
+  .service {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: clamp(var(--space-6), 2.5vw, var(--space-10));
+    border-block-end: 2px solid var(--c-ink);
+    align-items: start;
+  }
+  @media (max-width: 51.99rem) {
+    .service__num, .service__name, .service__copy { grid-column: auto; grid-row: auto; }
+    .service__num { order: -1; }
+  }
+  @media (min-width: 52rem) {
+    .service { grid-template-columns: 4rem minmax(0, 22rem) minmax(0, 1fr); gap: var(--space-8); }
+  }
+  .service__num {
+    grid-column: 1;
+    grid-row: 1;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-lg);
+  }
+  .service__name { grid-column: 2; grid-row: 1; }
+  .service__name {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .service__copy { grid-column: 3; grid-row: 1; color: var(--c-muted); max-width: 52ch; }
+
+  /* --- studio: a slot the buyer fills ------------------------------------ */
+  .studio { display: grid; gap: clamp(var(--space-8), 4vw, var(--space-14)); align-items: center; }
+  @media (min-width: 62rem) {
+    .studio { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  }
+  .slot {
+    position: relative;
+    overflow: clip;
+    border: 2px solid var(--c-ink);
+    background: var(--c-surface-2);
+    box-shadow: var(--shadow-2);
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-content: center;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    text-align: center;
+  }
+  .slot > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+  .slot:has(> img) > :not(img) { display: none; }
+  .slot__what { font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); }
+  .slot__size { color: var(--c-muted); font-size: var(--text-sm); }
+
+  /* --- the closing block -------------------------------------------------- */
+  .cta {
+    border: 2px solid var(--c-ink);
+    background: var(--c-ink);
+    color: var(--c-ground);
+    padding: clamp(var(--space-10), 5vw, var(--space-20));
+    box-shadow: var(--shadow-3);
+  }
+  .cta h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    max-width: 18ch;
+  }
+  .cta p { color: color-mix(in oklab, var(--c-ground) 78%, transparent); margin-block-start: var(--space-5); max-width: 44ch; }
+  .cta .btn { margin-block-start: var(--space-8); box-shadow: 4px 4px 0 var(--c-accent); }
+  .cta .btn:hover { box-shadow: 2px 2px 0 var(--c-accent); }
+
+  /* --- chrome ------------------------------------------------------------- */
+  .nav {
+    background: var(--c-ground);
+    backdrop-filter: none;
+    border-block-end: 2px solid var(--c-ink);
+  }
+  .nav__brand { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); letter-spacing: -0.03em; }
+  .nav__links a { font-size: var(--text-sm); letter-spacing: 0; text-transform: none; color: var(--c-muted); }
+  .nav__links a:hover { color: var(--c-ink); }
+
+  .footer {
+    background: var(--c-ground);
+    border-block-start: 2px solid var(--c-ink);
+    color: var(--c-ink);
+  }
+  .footer a { color: var(--c-muted); }
+  .footer a:hover { color: var(--c-ink); }
+  .footer .nav__brand { color: var(--c-ink); }
+}
