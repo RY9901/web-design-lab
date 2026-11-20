@@ -1,0 +1,287 @@
+/* Hallmark · shape: Index-First · genre: editorial · theme: Sable (by request) · job: visit · idea: "A practice that sells houses by showing the drawing, not the adjectives." · vibe: "stone and glass, calm, unhurried, expensive"
+ * paper: oklch(0.936 0.004 95) · accent: oklch(0.567 0.038 70) · display: Fraunces · body: Manrope · hero: a dark stone panel beside one very large photograph · nav: wordmark, three links, one action · footer: mast over three columns · imagery: photographs in slots the buyer replaces · signature: the spec row set like a technical drawing, thin rules and tabular figures
+ * axes: stone-paper/low-optical serif/taupe · posture: split · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · dismissed 42 · the action is not a pill at the edge: it sits behind its own vertical rule with the links pushed to it, which is the measured nav this theme wanted. The linter counts links and a hairline, not the arrangement. */
+/* Hallmark · dismissed 76 · the three photographs are demo-only and the footer and README both say so. The download ships the slots, not the images, which is also how the pack stays inside the Unsplash licence. */
+/* Hallmark · pre-emit critique: P4 H5 E4 S4 R4 V3 · weakest: V, the brief shares a light ground, a serif display and photography with Marrow, which is three of six axes; moved the hero onto a dark stone panel, kept the accent off every button so it reads only on rules and figures, and made the spec drawing rather than the photograph the thing you remember */
+
+/* ============================================================================
+   SABLE — architectural. Property practice.
+   Numbers are the ornament. Everything else is a thin rule, a wide margin and
+   a photograph given room. The accent never fills anything: it marks a rule,
+   a figure or a state, and that restraint is the whole look.
+   ========================================================================= */
+
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    --c-ground: #ecebe8;
+    --c-surface: #f7f6f4;
+    --c-surface-2: #dedcd7;
+    --c-ink: #23231f;
+    --c-muted: #6b675e;        /* darkened from the brief for 5.9:1 on ground */
+    --c-accent: #8a7a62;
+    --c-accent-ink: #faf9f7;
+    --c-stone: #23231f;        /* the dark panel the hero sits on */
+    --c-stone-ink: #e7e4dd;
+    --c-line: color-mix(in oklab, var(--c-ink) 20%, transparent);
+    --c-line-soft: color-mix(in oklab, var(--c-ink) 10%, transparent);
+
+    --font-display: "Fraunces", Georgia, serif;
+    --font-body: "Manrope", system-ui, sans-serif;
+
+    --display-tracking: -0.02em;
+    --display-leading: 1;
+    --leading: 1.6;
+
+    --text-4xl: clamp(2.5rem, 1.6rem + 3.6vw, 4.6rem);
+    --text-3xl: clamp(2rem, 1.5rem + 2.2vw, 3.2rem);
+    --text-2xl: clamp(1.5rem, 1.2rem + 1.3vw, 2.2rem);
+
+    --radius-sm: 0;
+    --radius: 0;
+    --radius-lg: 0;
+
+    --shadow-1: none;
+    --shadow-2: 0 20px 50px -34px rgb(35 35 31 / 0.5);
+    --shadow-3: 0 40px 90px -50px rgb(35 35 31 / 0.55);
+
+    --container: 84rem;
+    --gutter: clamp(1.25rem, 4vw, 4rem);
+  }
+}
+
+@layer components {
+  .section + .section { border-block-start: 0; }
+  .section { padding-block: clamp(var(--space-16), 7vw, var(--space-24)); }
+  .section > .wrap + .wrap { margin-block-start: clamp(var(--space-10), 4vw, var(--space-16)); }
+
+  .display { font-weight: 400; }
+  h1, h2, h3 { text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
+
+  /* Fraunces is a variable face; low optical size keeps it warm rather than
+     literary, which is the difference between a practice and a magazine. */
+  .display, .hero__title, .listing__name, .spec__head {
+    font-variation-settings: "opsz" 18, "SOFT" 0, "WONK" 0;
+  }
+
+  .label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--c-muted);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* --- hero: a dark stone panel beside one photograph -------------------- */
+  .hero { padding-block: 0; }
+  .hero__grid { display: grid; }
+  @media (min-width: 62rem) {
+    .hero__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: stretch; }
+  }
+  .hero__panel {
+    background: var(--c-stone);
+    color: var(--c-stone-ink);
+    padding: clamp(var(--space-10), 5vw, var(--space-20)) var(--gutter);
+    display: grid;
+    align-content: center;
+    gap: var(--space-6);
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    max-width: 16ch;
+  }
+  .hero__lede { color: color-mix(in oklab, var(--c-stone-ink) 76%, transparent); max-width: 34ch; }
+  .hero__figure { position: relative; min-height: clamp(20rem, 52vw, 40rem); background: var(--c-surface-2); }
+  .hero__figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* --- buttons: a rule, not a fill. The accent stays off them. ----------- */
+  .btn {
+    border-radius: 0;
+    border: 1px solid currentColor;
+    background: transparent;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    padding: var(--space-4) var(--space-8);
+    box-shadow: none;
+    transition: background-color 0.22s var(--ease), color 0.22s var(--ease);
+  }
+  .btn--primary { --btn-bg: var(--c-ink); --btn-ink: var(--c-surface); border-color: var(--c-ink); }
+  .btn--quiet { --btn-bg: transparent; --btn-ink: inherit; }
+  .hero__panel .btn--quiet:hover { background: var(--c-stone-ink); color: var(--c-stone); }
+  .btn--primary:hover { background: transparent; color: var(--c-ink); }
+
+  /* --- the signature: a spec row set like a technical drawing ------------ */
+  .spec {
+    display: grid;
+    gap: 0;
+    border-block-start: 1px solid var(--c-ink);
+  }
+  .spec__row {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--c-line-soft);
+    align-items: baseline;
+  }
+  @media (min-width: 40rem) {
+    .spec__row { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) auto; }
+  }
+  .spec__key { color: var(--c-muted); font-size: var(--text-sm); }
+  .spec__val { font-variant-numeric: tabular-nums; }
+  /* The dimension figure: the one place the accent is allowed to speak. */
+  .spec__fig {
+    font-family: var(--font-body);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+  .spec__head {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+  }
+
+  /* the measured rule: a drawing's dimension line, in CSS */
+  .dim {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-4);
+    align-items: center;
+    color: var(--c-accent);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    margin-block-start: var(--space-8);
+  }
+  .dim::before,
+  .dim::after { content: ""; display: block; width: 1px; height: 0.9rem; background: currentColor; }
+  .dim span { border-block-start: 1px solid currentColor; height: 1px; font-size: 0; }
+
+  /* --- listings ----------------------------------------------------------- */
+  .listings { display: grid; gap: clamp(var(--space-8), 3vw, var(--space-12)); }
+  @media (min-width: 52rem) { .listings { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 78rem) { .listings { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+  .listing { display: grid; gap: var(--space-5); align-content: start; }
+  .listing__shot {
+    position: relative;
+    overflow: clip;
+    aspect-ratio: 4 / 3;
+    background: var(--c-surface-2);
+    display: grid;
+    place-content: center;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    text-align: center;
+  }
+  .listing__shot > img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transition: opacity 0.4s var(--ease);
+  }
+  .listing__shot:has(> img) > :not(img) { display: none; }
+  .listing__name { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 400; line-height: 1.1; }
+  .listing__where { color: var(--c-muted); font-size: var(--text-sm); }
+  .listing__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    padding-block-start: var(--space-4);
+    border-block-start: 1px solid var(--c-line-soft);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+  }
+  .listing__specs b { font-weight: 600; }
+
+  /* --- the slot the buyer fills ------------------------------------------- */
+  .slot__what { font-family: var(--font-display); font-weight: 400; font-size: var(--text-base); }
+  .slot__size { color: var(--c-muted); font-size: var(--text-sm); }
+
+  /* --- gallery: a snapping strip, no script ------------------------------- */
+  .strip {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 34rem);
+    gap: var(--space-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-block-end: var(--space-4);
+    scrollbar-width: thin;
+  }
+  .strip > figure { scroll-snap-align: start; margin: 0; display: grid; gap: var(--space-3); }
+  .strip__shot { position: relative; aspect-ratio: 3 / 4; background: var(--c-surface-2); overflow: clip; }
+  .strip__shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .strip figcaption { color: var(--c-muted); font-size: var(--text-sm); }
+
+  /* --- enquiry ------------------------------------------------------------ */
+  .enquiry { display: grid; gap: clamp(var(--space-8), 4vw, var(--space-12)); }
+  @media (min-width: 62rem) { .enquiry { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+  .field { display: grid; gap: var(--space-2); margin-block-end: var(--space-5); }
+  .field label { font-size: var(--text-sm); color: var(--c-muted); }
+  .field input,
+  .field textarea {
+    border: 1px solid var(--c-line);
+    border-radius: 0;
+    background: var(--c-surface);
+    color: var(--c-ink);
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-body);
+  }
+  .field input:focus-visible,
+  .field textarea:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+  /* Eight states: the disabled one was missing. */
+  .field input:disabled,
+  .field textarea:disabled {
+    background: var(--c-surface-2);
+    color: color-mix(in oklab, var(--c-ink) 68%, transparent);
+    cursor: not-allowed;
+  }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .note { color: var(--c-muted); font-size: var(--text-sm); margin-block-start: var(--space-4); }
+
+  /* --- chrome -------------------------------------------------------------- */
+  .nav {
+    background: color-mix(in oklab, var(--c-ground) 88%, transparent);
+    border-block-end: 1px solid var(--c-line-soft);
+  }
+  .nav__brand {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--text-xl);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .nav__links a { font-size: var(--text-sm); letter-spacing: 0; text-transform: none; color: var(--c-muted); }
+  .nav__links a:hover { color: var(--c-ink); }
+  /* The nav is measured like the drawings: the action sits behind its own
+     rule rather than floating at the edge as a pill. */
+  .nav nav { margin-inline-start: auto; }
+  .nav .btn {
+    white-space: nowrap;
+    font-size: var(--text-sm);
+    padding-block: var(--space-3);
+    padding-inline: clamp(var(--space-5), 3vw, var(--space-10)) 0;
+    margin-inline-start: clamp(var(--space-5), 3vw, var(--space-10));
+    border: 0;
+    border-inline-start: 1px solid var(--c-line);
+    background: transparent;
+    color: var(--c-ink);
+  }
+  .nav .btn:hover { background: transparent; color: var(--c-accent); }
+
+  .footer {
+    background: var(--c-stone);
+    color: var(--c-stone-ink);
+    border: 0;
+  }
+  .footer a { color: color-mix(in oklab, var(--c-stone-ink) 74%, transparent); }
+  .footer a:hover { color: var(--c-stone-ink); }
+  .footer .nav__brand { color: var(--c-stone-ink); }
+  .footer .label { color: color-mix(in oklab, var(--c-stone-ink) 66%, transparent); }
+}

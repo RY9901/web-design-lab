@@ -44,8 +44,8 @@
         "footer"
       ],
       "signature": "a glowing product frame in the hero, built entirely in CSS",
-      "status": "unbuilt",
-      "builtAt": null
+      "status": "built",
+      "builtAt": "2026-11-20"
     },
     {
       "id": 2,
@@ -81,8 +81,8 @@
         "footer with map embed slot"
       ],
       "signature": "the menu page — typography doing all the work, no decoration",
-      "status": "unbuilt",
-      "builtAt": null
+      "status": "built",
+      "builtAt": "2026-11-20"
     },
     {
       "id": 3,
@@ -155,8 +155,8 @@
         "footer"
       ],
       "signature": "the listing detail page — specs set like a technical drawing",
-      "status": "unbuilt",
-      "builtAt": null
+      "status": "needs-visual-review",
+      "builtAt": "2026-11-20"
     },
     {
       "id": 5,

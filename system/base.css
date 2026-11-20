@@ -411,8 +411,11 @@
     inset-inline-start: -9999px;
     top: var(--space-3);
     padding: var(--space-3) var(--space-5);
-    background: var(--c-accent);
-    color: var(--c-accent-ink);
+    /* Ink on ground, not accent on paper. A theme is free to pick a mid-tone
+       accent — Sable's taupe gives 3.96:1 — but the skip link is the first
+       thing a keyboard user meets and has to pass in every theme. */
+    background: var(--c-ink);
+    color: var(--c-ground);
     border-radius: var(--radius-sm);
     z-index: 100;
   }

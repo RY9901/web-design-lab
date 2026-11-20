@@ -2,8 +2,8 @@
  * paper: oklch(0.959 0.005 95) · accent: oklch(0.92 0.179 117) · display: Bricolage Grotesque · body: Archivo · hero: head left, one project card right already turning over · nav: wordmark, three links, one action · footer: mast over four columns · imagery: none — type-led, with slots the buyer fills · signature: project cards that turn over on hover and on focus, no JavaScript
  * axes: warm-paper/grotesque/lime · posture: split · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S3 R4 V5 · weakest: S, a soft-brutalist agency page is a worn genre and this studio is fictional; led with the cards as the one memorable object and used labelled slots instead of invented clients, logos or project counts */
-/* Hallmark · answered F4: the second hero action is .btn--ghost, which resolves to a transparent background from the base layer; the linter reads the class, not the computed fill. One filled button on the screen. */
-/* Hallmark · answered 42: the nav is a 2px ink rule with no blur and three links, which is this theme's shape rather than the default hairline. */
+/* Hallmark · answered F4 · the second hero action is .btn--ghost, which resolves to a transparent background from the base layer; the linter reads the class, not the computed fill. One filled button on the screen. */
+/* Hallmark · dismissed 42 · the nav is a 2px ink rule with no blur and three links, which is this theme’s shape rather than the default hairline. */
 
 /* ============================================================================
    ATLAS WORKS — soft-brutalist. Creative studio.
