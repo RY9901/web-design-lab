@@ -326,7 +326,13 @@
     backdrop-filter: none;
     border-block-end: 2px solid var(--c-ink);
   }
-  .nav__brand { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); letter-spacing: -0.03em; }
+  .nav__brand { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); letter-spacing: -0.03em; white-space: nowrap; }
+  /* The nav is one line at every width: neither the wordmark nor the action
+     may wrap, so the action loses padding rather than height. */
+  .nav .btn { white-space: nowrap; }
+  @media (max-width: 30rem) {
+    .nav .btn { padding-inline: var(--space-4); font-size: var(--text-sm); }
+  }
   .nav__links a { font-size: var(--text-sm); letter-spacing: 0; text-transform: none; color: var(--c-muted); }
   .nav__links a:hover { color: var(--c-ink); }
 
