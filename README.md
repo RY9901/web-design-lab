@@ -1,9 +1,15 @@
 # web-design-lab
 
-A static-design pipeline. One complete, constrained web design shipped per day, built by a
-scheduled agent and reviewed by me.
+A sellable multi-theme website template pack, hand-written in HTML and CSS with no build step,
+built by a scheduled agent and reviewed by me.
 
-**Live gallery:** https://ry9901.github.io/web-design-lab/
+**Live:** https://ry9901.github.io/web-design-lab/
+
+| Theme | Register | |
+|---|---|---|
+| 001 Vela | Techno-minimal, dark | [view](https://ry9901.github.io/web-design-lab/themes/001-vela/) |
+| 002 Marrow | Editorial-luxe, photographic | [view](https://ry9901.github.io/web-design-lab/themes/002-marrow/) |
+| 003 Atlas Works | Soft-brutalist, type-led | [view](https://ry9901.github.io/web-design-lab/themes/003-atlas-works/) |
 
 ---
 
@@ -11,66 +17,79 @@ scheduled agent and reviewed by me.
 
 This repository is AI-built, and I would rather say so than have you work it out.
 
-Every morning at 05:00 (+08) a scheduled [Claude Code](https://claude.com/claude-code) routine
-runs in the cloud and ships one design:
+A scheduled [Claude Code](https://claude.com/claude-code) routine runs in the cloud and ships
+one theme per run. It takes the next entry from [`catalog/themes.json`](catalog/themes.json),
+hand-writes `index.html` and `theme.css` against the shared system, runs two gates, writes down
+what it is unsure about, and pushes.
 
-1. takes the next brief from [`catalog/briefs.json`](catalog/briefs.json) — a fixed catalogue of
-   60, each one a combination of *industry × aesthetic × layout archetype × **one hard
-   constraint***
-2. writes the brief out: an invented brand with real copy, and a spec naming the CSS techniques
-   the design must exercise
-3. hand-writes `index.html` and `styles.css` — no framework, no build step, no CDN
-4. runs the quality gate and fixes what it reports
-5. writes `BUILD.md`: the decisions it made, the alternatives it rejected, **what it is least
-   sure about**, and two judgment calls left for me
-6. commits and pushes
+**It is never allowed to call a theme finished.** The most it may record is
+`needs-visual-review`. I promote a theme to `built` after looking at it in a browser. That rule
+exists because it was learned the hard way: three themes in a row were rejected, and every
+fault that mattered — a hero photograph with nowhere for the type to sit, section images that
+fought the hero, a nav that collapsed into itself below 700px, a dropdown rendering white text
+on a cream panel — was invisible in the source and obvious in a screenshot. An agent that
+cannot see does not get to grade its own work.
 
-**My job is design direction and review.** I set the catalogue — the industries, the aesthetics,
-the archetypes, and the constraints that make each design a real problem rather than a
-template. Then I validate what shipped and record the verdict in `VALIDATE.md`: constraint met
-or not, what I accepted, what I sent back, and why.
+## The two rulebooks
 
-Unreviewed work is not finished work. If ten designs pile up without a `VALIDATE.md`, the
-routine stops building and says so.
+**The system contract.** [`system/base.css`](system/base.css) owns the reset, the layout
+primitives and the shared components. A theme never edits it. It redefines the token contract
+in its own `@layer tokens` block and adds its signature pieces in `@layer components`. Every
+colour and every font goes through a token — a literal outside the token block is a defect.
+
+**The design floor.** Themes 003 onward are built to the [Hallmark](https://github.com/) floor:
+no eyebrow above a heading, no tracked small-caps labels, no accented word inside a headline,
+no invented metrics or client logos, one filled button per screen, `transform` and `opacity`
+only. Vela and Marrow predate it and are exempt by decision, not by oversight.
+
+The floor exists because of a measurable problem. Vela and Marrow were built in deliberately
+opposite registers and still independently arrived at the same three devices: an eyebrow,
+tracked small caps, and one accent-coloured word in the headline. Those are the defaults a
+model falls into. Across eight themes that is not a pack, it is one theme eight times.
 
 ## Why it is built this way
 
 | Choice | Reason |
 |---|---|
-| No build step, no framework, no Tailwind | Every file in `designs/` is readable on its own, in the browser, forever. No dependency rot across 60 designs. |
-| A fixed catalogue, each brief consumed once | 60 designs converge on the same design unless the axes are decided up front. |
-| **One hard constraint per brief** | *No images*, *monochrome*, *under 15KB*, *grid-only*, *keyboard-navigable*. The constraint is the design problem. Without it this is just 60 landing pages. |
-| Invented brands with real copy | Lorem ipsum makes 60 designs read as one. |
-| `BUILD.md` leads with uncertainty | A build that tells me where it is probably wrong is reviewable in ten minutes. One that claims success is not. |
-| The routine pauses on a review backlog | A repo of unreviewed generated pages proves nothing. The gate enforces it. |
+| No build step, no framework, no Tailwind | Every theme is readable on its own, in a browser, forever. A buyer can open one file and change it. |
+| One shared base, per-theme token overrides | The pack is a system, not eight unrelated pages. Fixing the nav once fixed it everywhere. |
+| Two gates, not one | `check.mjs` catches structure and dead tokens; the design linter catches the defaults. They find different things. |
+| The routine may not mark work `built` | It cannot see. The one rule it must never break. |
+| Slots instead of invented proof | Fake metrics and client logos are both dishonest and unsellable. Where proof goes, there is a labelled slot. |
+| The routine pauses on a review backlog | A repo of unreviewed generated pages proves nothing. |
+
+## Known gaps
+
+- **Photography licensing.** Marrow hotlinks Unsplash. The licence does not clearly cover
+  images sold on in a template, so before this pack is sold the demo and the download have to
+  part company: slots and a credits file in the download, photographs in the live demo only.
+  Atlas Works already works this way.
+- Only the homepage of each theme exists; the briefs specify three or four pages each.
+- The render tier of the design linter needs puppeteer, which is not installed, so rendered
+  overflow and contrast checks are done by hand in a browser.
 
 ## Repository layout
 
 ```
-catalog/briefs.json       the 60 briefs, each consumed once
-shared/                   reset + design tokens, grown by extraction
-designs/NNNN-slug/        BRIEF SPEC index.html styles.css BUILD (routine) · VALIDATE (me)
-scripts/check.mjs         quality gate, zero dependencies
-scripts/build-gallery.mjs generates the root index.html
-docs/ROUTINE.md           the exact prompt the routine runs
-docs/ROADMAP.md           what each phase adds
+catalog/themes.json          the theme briefs, each consumed once
+system/base.css              the shared layer: reset, layout, components
+themes/NNN-slug/             index.html + theme.css + BUILD.md
+designs/                     legacy: the earlier constraint-exercise pipeline
+scripts/check.mjs            structural gate, zero dependencies
+scripts/build-gallery.mjs    generates the root index.html
+docs/ROUTINE.md              the exact prompt the routine runs
+docs/ROADMAP.md              what each phase adds
 ```
 
 ## Commands
 
 ```bash
-npm run check      # quality gate: constraints, a11y basics, dead links, size budgets, review backlog
+npm run check      # structural gate: tokens, a11y basics, dead links, review backlog
 npm run gallery    # regenerate the root index.html
 npm run verify     # both
-npm run brief -- --industry "glass blower" --aesthetic "bauhaus" \
-                 --archetype "card gallery" --constraint "no images at all"
 ```
-
-## Status
-
-**Phase 1.** Designs shipping daily. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Licence
 
-MIT for the code. All brands, logos and copy in `designs/` are invented for the exercise and
-refer to no real company.
+MIT for the code. Every brand, project and quote in `themes/` is invented and refers to no real
+company. Demo photographs are not covered by that licence and are not part of the pack.

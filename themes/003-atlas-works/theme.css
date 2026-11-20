@@ -142,7 +142,7 @@
     border: 2px solid var(--c-ink);
     background: var(--c-surface);
     box-shadow: var(--shadow-2);
-    min-height: 19rem;
+    min-height: 15rem;
     display: grid;
   }
   .project__face {
@@ -153,13 +153,15 @@
   }
   /* The name leads in the DOM; the number is placed back on top visually and
      hidden from assistive tech, because it is a marker, not a label. */
+  /* The number is the graphic element that carries the card at rest, so it is
+     set at display scale rather than used as a caption. */
   .project__num { order: -1; }
   .project__num {
     font-family: var(--font-display);
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
     font-weight: 800;
     font-variant-numeric: tabular-nums;
-    line-height: 1;
+    line-height: 0.78;
   }
   .project__name {
     font-family: var(--font-display);
@@ -168,7 +170,8 @@
     line-height: 0.95;
     letter-spacing: -0.03em;
   }
-  .project__kind { color: var(--c-muted); font-size: var(--text-sm); }
+  .project__kind { color: var(--c-muted); font-size: var(--text-sm); margin-block-start: var(--space-2); }
+  .project__head { border-block-start: 2px solid var(--c-ink); padding-block-start: var(--space-4); }
 
   /* The second layer. Transform and opacity only, and it is reachable by
      keyboard because the whole card is a link. */
